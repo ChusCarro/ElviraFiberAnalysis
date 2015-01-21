@@ -1,0 +1,7 @@
+# $1 number of processes
+# $2 input data file with full path
+# $3 output identifier with full path of output directory
+# INPUTDIR=../../data/isquemiaTT/mod110_8_9
+# OUTPUTDIR=../../post
+# nohup mpirun -np $1 ~/Software/Elvira/Carro1007/fem_mpi/bin/mainelv -i $2 -o $3 </dev/null 2>&1 &
+nohup mpirun -np $1 ~/Software/Elvira/Carro1007/fem_mpi/bin/mainelv -i $2 -o $3 </dev/null 2>&1
