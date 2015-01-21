@@ -1,6 +1,10 @@
 function calculateERP(cores, pathToSave, mainElvira, cellType, K, K_index, dt, step_save, pre_dur,...
                        pre_step, fun_sodium, h_index, j_index, Imax, Istep, CI_step)
 
+setenv('GFORTRAN_STDIN_UNIT', '5')
+setenv('GFORTRAN_STDOUT_UNIT', '6')
+setenv('GFORTRAN_STDERR_UNIT', '0')
+
 [SUCCESS,MESSAGE] = mkdir(pathToSave);
 
 if(SUCCESS==0)
