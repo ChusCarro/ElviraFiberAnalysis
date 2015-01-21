@@ -1,14 +1,14 @@
-function calculateERP(cores, Model, cellType, K, K_index, K_dirFact, dt, step_save, pre_dur,...
+function calculateERP(cores, pathToSave, cellType, K, K_index, K_dirFact, dt, step_save, pre_dur,...
                        pre_step, fun_sodium, h_index, j_index, Imax, Istep, CI_step)
 
-[SUCCESS,MESSAGE] = mkdir(Model);
+[SUCCESS,MESSAGE] = mkdir(pathToSave);
 
 if(SUCCESS==0)
     error([Model ' directory can''t be created: ' MESSAGE])
 end
 
-if(isempty(dir([Model '/base'])))
-    copyfile('base',[Model '/base']);
+if(isempty(dir([pathToSave '/base'])))
+    copyfile('base',[pathToSave '/base']);
     createRunElv(Model)
     createFilePropNod(Model, cellType);
     createFileNodeOutput(Model, step_save);
@@ -32,7 +32,7 @@ parfor i=1:length(K)
 
     if(isempty(dir([Model '/' K_str{i}])))
         [SUCCESS,MESSAGE] =  mkdir([Model '/' K_str{i}]);
-        copyfile([Model '/base'],[Model '/' K_str{i} '/base']);  
+        copyfile([Model '/base'],[Model '/' K_str{i} '/base']);
         createFileParamNode(Model,K(i),K_index,K_str{i})
     end
 
