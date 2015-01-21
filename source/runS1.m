@@ -1,9 +1,9 @@
-function conduction = runS1(Model,K_str,dt)
+function conduction = runS1(pathToSave,K_str,dt)
 
-file=dir([Model '/' K_str '/status.mat']);
+file=dir([pathToSave '/' K_str '/status.mat']);
 
 if(~isempty(file))
-    sim_stat = load([Model '/' K_str '/status.mat']);
+    sim_stat = load([pathToSave '/' K_str '/status.mat']);
 else
     conduction = false;
     return;
@@ -14,24 +14,24 @@ if(~isfield(sim_stat,'IStim'))
     return;
 end
 
-if(isempty(dir([Model '/' K_str '/base-S1'])))
+if(isempty(dir([pathToSave '/' K_str '/base-S1'])))
 
     IStim = sim_stat.IStim;
 
-    createMainFileS1(Model,K_str,dt);
-    createFileS1Stim(Model,K_str,IStim);
+    createMainFileS1(pathToSave,K_str,dt);
+    createFileS1Stim(pathToSave,K_str,IStim);
 
-    cd([Model '/' K_str '/base/'])
+    cd([pathToSave '/' K_str '/base/'])
     ! ./runelv 1 data/main_file_S1.dat post/S1_ 
     cd ../../..
 
-    copyfile([Model '/' K_str '/base'],[Model '/' K_str '/base-S1']);
-    delete([Model '/' K_str '/base/*.*']);
-    delete([Model '/' K_str '/base/post/*']);
+    copyfile([pathToSave '/' K_str '/base'],[pathToSave '/' K_str '/base-S1']);
+    delete([pathToSave '/' K_str '/base/*.*']);
+    delete([pathToSave '/' K_str '/base/post/*']);
 end
 
 if(~isfield(sim_stat,'APD2'))
-    cd([Model '/' K_str '/base-S1/'])
+    cd([pathToSave '/' K_str '/base-S1/'])
     a=load('post/S1_00000151.var');
     dt_results = a(2,1)-a(1,1);
     CL_pos = round(1000/dt_results);
@@ -72,6 +72,6 @@ if(~isfield(sim_stat,'APD2'))
     sim_stat.APD2 = APD2;
 end
 
-save([Model '/' K_str '/status.mat'],'-struct','sim_stat');
+save([pathToSave '/' K_str '/status.mat'],'-struct','sim_stat');
 conduction = sim_stat.S1Conduction;
 

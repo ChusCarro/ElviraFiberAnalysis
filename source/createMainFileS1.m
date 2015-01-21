@@ -1,6 +1,6 @@
-function createMainFileS1(Model,K_str,dt)
+function createMainFileS1(pathToSave,K_str,dt)
 
-f=fopen([Model '/' K_str '/base/data/main_file_S1.dat'],'w');
+f=fopen([pathToSave '/' K_str '/base/data/main_file_S1.dat'],'w');
 
 fprintf(f,'!------------------------------------------------------\n');
 fprintf(f,'#TITLE\n');

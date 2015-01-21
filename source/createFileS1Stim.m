@@ -1,6 +1,6 @@
-function createFileS1Stim(Model, K_str, Istim)
+function createFileS1Stim(pathToSave, K_str, Istim)
 
-f=fopen([Model '/' K_str '/base/data/file_stimulus_S1.dat'],'w');
+f=fopen([pathToSave '/' K_str '/base/data/file_stimulus_S1.dat'],'w');
 fprintf(f,'1\n');
 fprintf(f,'  1 11');
 for i=0:1000:10000

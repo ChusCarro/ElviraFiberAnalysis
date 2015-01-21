@@ -1,6 +1,6 @@
-function createMainFilePreStim(Model,duration,step_restart,dt)
+function createMainFilePreStim(pathToSave,duration,step_restart,dt)
 
-f=fopen([Model '/base/data/main_file_preStim.dat'],'w');
+f=fopen([pathToSave '/base/data/main_file_preStim.dat'],'w');
 
 restart_points = step_restart:step_restart:duration;
 if(restart_points(end)~=duration)

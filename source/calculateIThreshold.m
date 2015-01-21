@@ -1,10 +1,10 @@
-function conduction = calculateIThreshold(Model, K_str, Imax, IStep, dt)
+function conduction = calculateIThreshold(pathToSave, K_str, Imax, IStep, dt)
 
 conduction =false;
-file = dir([Model '/' K_str '/status.mat']);
+file = dir([pathToSave '/' K_str '/status.mat']);
 
 if(~isempty(file))
-    sim_stat = load([Model '/' K_str '/' '/status.mat']);
+    sim_stat = load([pathToSave '/' K_str '/' '/status.mat']);
 else
     sim_stat = struct();
 end
@@ -29,18 +29,18 @@ end
 
 if(~isfield(sim_stat,'maxIStim'))
     if(sim_stat.minIStim>=Imax)
-        save([Model '/' K_str '/status.mat'],'-struct','sim_stat');
+        save([pathToSave '/' K_str '/status.mat'],'-struct','sim_stat');
         return;
     end
 
     Istim_str = ['Istim_' num2str(round(Imax/IStep),'%04d')];
-    if(~isempty(dir([Model '/' K_str '/' Istim_str])))
-        rmdir([Model '/' K_str '/' Istim_str],'s')
+    if(~isempty(dir([pathToSave '/' K_str '/' Istim_str])))
+        rmdir([pathToSave '/' K_str '/' Istim_str],'s')
     end
-    copyfile([Model '/' K_str '/base'],[Model '/' K_str '/' Istim_str])
-    createMainFileIThreshold(Model, K_str, Istim_str, dt);
-    createFileIThresholdStim(Model, K_str, Imax, Istim_str);
-    cd([Model '/' K_str '/' Istim_str])
+    copyfile([pathToSave '/' K_str '/base'],[pathToSave '/' K_str '/' Istim_str])
+    createMainFileIThreshold(pathToSave, K_str, Istim_str, dt);
+    createFileIThresholdStim(pathToSave, K_str, Imax, Istim_str);
+    cd([pathToSave '/' K_str '/' Istim_str])
     ! ./runelv 1 data/main_file_IThreshold.dat post/IThreshold_
     a=load('post/IThreshold_00000151.var');
     dt_results = a(2,1)-a(1,1);
@@ -70,7 +70,7 @@ else
     conduction = true;
 end
 
-save([Model '/' K_str '/status.mat'],'-struct','sim_stat');
+save([pathToSave '/' K_str '/status.mat'],'-struct','sim_stat');
 
 if(~sim_stat.conduction)
     return;
@@ -79,13 +79,13 @@ end
 while(sim_stat.maxIStim-sim_stat.minIStim-sim_stat.IStep>1e-3)
     Istim = round((sim_stat.maxIStim+sim_stat.minIStim)/2/sim_stat.IStep)*sim_stat.IStep;
     Istim_str = ['Istim_' num2str(round(Istim/IStep),'%04d')];
-    if(~isempty(dir([Model '/' K_str '/' Istim_str])))
-        rmdir([Model '/' K_str '/' Istim_str],'s')
+    if(~isempty(dir([pathToSave '/' K_str '/' Istim_str])))
+        rmdir([pathToSave '/' K_str '/' Istim_str],'s')
     end
-    copyfile([Model '/' K_str '/base'],[Model '/' K_str '/' Istim_str])
-    createMainFileIThreshold(Model, K_str, Istim_str, dt);
-    createFileIThresholdStim(Model, K_str, Istim, Istim_str);
-    cd([Model '/' K_str '/' Istim_str])
+    copyfile([pathToSave '/' K_str '/base'],[pathToSave '/' K_str '/' Istim_str])
+    createMainFileIThreshold(pathToSave, K_str, Istim_str, dt);
+    createFileIThresholdStim(pathToSave, K_str, Istim, Istim_str);
+    cd([pathToSave '/' K_str '/' Istim_str])
     ! ./runelv 1 data/main_file_IThreshold.dat post/IThreshold_
     a=load('post/IThreshold_00000151.var');
     dt_results = a(2,1)-a(1,1);
@@ -108,11 +108,11 @@ while(sim_stat.maxIStim-sim_stat.minIStim-sim_stat.IStep>1e-3)
        sim_stat.minIStim=Istim;
     end
 
-    save([Model '/' K_str '/status.mat'],'-struct','sim_stat');
+    save([pathToSave '/' K_str '/status.mat'],'-struct','sim_stat');
 
 end
 
 sim_stat.IThreshold = sim_stat.maxIStim;
 sim_stat.IStim = sim_stat.IThreshold * 2;
 
-save([Model '/' K_str '/status.mat'],'-struct','sim_stat');
+save([pathToSave '/' K_str '/status.mat'],'-struct','sim_stat');

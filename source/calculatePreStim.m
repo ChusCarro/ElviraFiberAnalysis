@@ -1,11 +1,11 @@
-function [state, new_pre_dur] = calculatePreStim(Model, K_str, h_index, j_index, fun_sodium,pre_dur, pre_step, dt)
+function [state, new_pre_dur] = calculatePreStim(pathToSave, K_str, h_index, j_index, fun_sodium,pre_dur, pre_step, dt)
 
-    if(isempty(dir([Model '/' K_str '/base/data/restartPreStim_prc_0.bin'])))
+    if(isempty(dir([pathToSave '/' K_str '/base/data/restartPreStim_prc_0.bin'])))
 
-        createMainFilePreStim([Model '/' K_str],pre_dur,pre_step,dt)
+        createMainFilePreStim([pathToSave '/' K_str],pre_dur,pre_step,dt)
 
-        [s]=rmdir([Model '/' K_str '/base-preStim'],'s');
-        cd([Model '/' K_str '/base'])
+        [s]=rmdir([pathToSave '/' K_str '/base-preStim'],'s');
+        cd([pathToSave '/' K_str '/base'])
 
         delete('data/restart_*_prc_0.bin');
         delete('post/*');
@@ -32,7 +32,7 @@ function [state, new_pre_dur] = calculatePreStim(Model, K_str, h_index, j_index,
             return
         end
         restart_file_step =round(ceil(steps_pre*step_save/(pre_step/dt))*(pre_step/dt));
-        cd([Model '/' K_str '/base/data'])
+        cd([pathToSave '/' K_str '/base/data'])
         copyfile(['restart_' num2str(restart_file_step) '_prc_0.bin'],'restartPreStim_prc_0.bin');
         delete('restart_*_prc_0.bin');
         cd ../../../..

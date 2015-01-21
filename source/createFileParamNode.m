@@ -1,6 +1,6 @@
-function createFileParamNode(Model,K,K_index,K_str)
+function createFileParamNode(pathToSave,K,K_index,K_str)
 
-f=fopen([Model '/' K_str '/base/data/file_param_node.dat'],'w');
+f=fopen([pathToSave '/' K_str '/base/data/file_param_node.dat'],'w');
 
 fprintf(f,'401\n');
 for i=1:401

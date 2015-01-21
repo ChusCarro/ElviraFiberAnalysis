@@ -1,4 +1,5 @@
 pathToSave = '~/FiberResults/GrandiEstable0001';
+mainElvira = '~/Software/Elvira/Elvira20150121/bin/mainelv_infiniband_gcc'
 cellType = 13;
 K=[4:0.1:11];
 cores=4;
@@ -15,7 +16,7 @@ Imax = 500;
 Istep = 1;
 CI_step = 0.1;
 
-calculateERP(cores, pathToSave, cellType, K, K_index, dt,...
+calculateERP(cores, pathToSave, mainElvira, cellType, K, K_index, dt,...
              step_save, pre_dur, pre_step, fun_sodium, h_index,...
              j_index, Imax, Istep, CI_step)
 

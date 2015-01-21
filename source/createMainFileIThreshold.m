@@ -1,6 +1,6 @@
-function createMainFileIThreshold(Model,K_str,Istim_str,dt)
+function createMainFileIThreshold(pathToSave,K_str,Istim_str,dt)
 
-f=fopen([Model '/' K_str '/' Istim_str '/data/main_file_IThreshold.dat'],'w');
+f=fopen([pathToSave '/' K_str '/' Istim_str '/data/main_file_IThreshold.dat'],'w');
 
 fprintf(f,'!------------------------------------------------------\n');
 fprintf(f,'#TITLE\n');

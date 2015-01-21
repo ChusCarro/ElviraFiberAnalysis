@@ -1,6 +1,6 @@
-function createFilePropNod(Model, cellType)
+function createFilePropNod(pathToSave, cellType)
 
-f=fopen([Model '/base/data/file_prop_nod.dat'],'w');
+f=fopen([pathToSave '/base/data/file_prop_nod.dat'],'w');
 
 fprintf(f,'1\n');
 fprintf(f,['1 1 1 0 ' num2str(cellType) '\n']);

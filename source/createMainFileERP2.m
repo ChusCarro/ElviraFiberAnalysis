@@ -1,6 +1,6 @@
-function createMainFileERP2(Model,K_str,CI,CI_str,dt)
+function createMainFileERP2(pathToSave,K_str,CI,CI_str,dt)
 
-f=fopen([Model '/' K_str '/' CI_str '/data/main_file_ERP2.dat'],'w');
+f=fopen([pathToSave '/' K_str '/' CI_str '/data/main_file_ERP2.dat'],'w');
 
 fprintf(f,'!------------------------------------------------------\n');
 fprintf(f,'#TITLE\n');
