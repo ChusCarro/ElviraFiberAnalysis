@@ -1,6 +1,6 @@
-function createRunElv(mainElvira)
+function createRunElv(pathToSave,mainElvira)
 
-f = fopen([Model '/base/runelv'],'w');
+f = fopen([pathToSave '/base/runelv'],'w');
 
 fprintf(f,'# $1 number of processes\n');
 fprintf(f,'# $2 input data file with full path\n');

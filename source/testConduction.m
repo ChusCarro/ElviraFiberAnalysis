@@ -11,7 +11,7 @@ n_cells = length(V(1,:));
 conduction = false;
 
 for i=1:n_cells
-    [APD90_c{i},APD_time{i},maxV{i},minV{i}]= calculateAPD(V(:,i),dt);
+    [APD90_c{i},APD_time{i}]= calculateAPD(V(:,i),dt);
 end
 
 n=length(APD90_c{1});
@@ -31,33 +31,19 @@ end
 
 conduction_v = true(1,n);
 
-maxV = cell2mat(maxV);
-minV = cell2mat(minV);
-
+APD90_v = cell2mat(APD90_c);
 for i=1:n
-   differences = maxV(:,i) - minV(:,i);
-   differences_rel = (maxV(:,i) - minV(:,i))./abs(minV(:,i));
-   five_per = find(differences_rel<0.1,1);
-   if(~isempty(five_per))
-       conduction_v(i)=false;
-       continue
-   end
-   
-%   diff_matrix = (1./differences)*differences';   
-   
-%   seventy_per = find(diff_matrix<0.7,1);
-%   if(~isempty(seventy_per))
-%       conduction_v(i)=false;
-%       continue
-%   end
+  if(~isempty(find(APD90_v(:,i)<150)))
+    conduction_v(i)=false;
+  end  
 end
 
-APD90 = mean(cell2mat(APD90_c));
+APD90 = mean(APD90_v);
 CV = mean(250./diff(cell2mat(APD_time)));
 
 APD90(~conduction_v)=[];
 CV(~conduction_v)=[];
 
-if(~isempty(APD90))
+if(n==length(APD90))
     conduction = true;
 end

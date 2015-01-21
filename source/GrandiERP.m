@@ -1,5 +1,5 @@
 pathToSave = '~/FiberResults/GrandiEstable0001';
-mainElvira = '~/Software/Elvira/Elvira20150121/bin/mainelv_infiniband_gcc'
+mainElvira = '~/Software/Elvira/Elvira20150121/bin/mainelv_infiniband_gcc';
 cellType = 13;
 K=[4:0.1:11];
 cores=4;

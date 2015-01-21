@@ -9,7 +9,7 @@ end
 
 if(isempty(dir([pathToSave '/base'])))
     copyfile('base',[pathToSave '/base']);
-    createRunElv(mainElvira)
+    createRunElv(pathToSave,mainElvira)
     createFilePropNod(pathToSave, cellType);
     createFileNodeOutput(pathToSave, step_save);
 end
@@ -20,8 +20,9 @@ new_pre_dur = zeros(size(K));
 Threshold_stat = zeros(size(K));
 S1_stat = zeros(size(K));
 
-matlabpool(cores)
-parfor i=1:length(K)
+%matlabpool(cores)
+%par
+for i=1:length(K)
     K_str{i} = ['K_' num2str(K(i))];
 
     if(isempty(dir([pathToSave '/' K_str{i}])))
@@ -51,4 +52,4 @@ parfor i=1:length(K)
     calculateSingleERP(pathToSave, K_str{i}, CI_step, dt);
 end
 
-matlabpool close
+%matlabpool close

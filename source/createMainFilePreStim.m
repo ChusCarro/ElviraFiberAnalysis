@@ -40,7 +40,7 @@ fprintf(f,'*SOLVER\n');
 fprintf(f,'1\n');
 fprintf(f,'!------------------------------------------------------\n');
 fprintf(f,'*TIME_INC\n');
-fprintf(f,[num2str(dt) ' ' num2str(dt) ' ' num2str(duration) ' ' num2str(dt) ' ' num2str(dt) '\n']);
+fprintf(f,[num2str(dt) ' ' num2str(dt) ' ' num2str(duration) ' ' num2str(dt) ' 0\n']);
 fprintf(f,'!------------------------------------------------------\n');
 fprintf(f,'*STIMULUS, FILE:"file_stimulus_preStim.dat"\n');
 fprintf(f,'!------------------------------------------------------\n');
