@@ -1,3 +1,5 @@
+addpath('../source')
+
 pathToSave = '~/FiberResults/GrandiEstable0001';
 mainElvira = '~/Software/Elvira/Elvira20150121/bin/mainelv_infiniband_gcc';
 cellType = 13;
