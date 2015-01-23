@@ -12,7 +12,10 @@ if(SUCCESS==0)
 end
 
 if(isempty(dir([pathToSave '/base'])))
-    copyfile('base',[pathToSave '/base']);
+    %copyfile('base',[pathToSave '/base']);
+    mkdir([pathToSave '/base'])
+    mkdir([pathToSave '/base/data'])
+    mkdir([pathToSave '/base/post'])
     createRunElv(pathToSave,mainElvira)
     createFilePropNod(pathToSave, cellType);
     createFileNodeOutput(pathToSave, step_save);

@@ -40,7 +40,7 @@ if(~isfield(sim_stat,'maxIStim'))
     copyfile([pathToSave '/' K_str '/base'],[pathToSave '/' K_str '/' Istim_str])
     createMainFileIThreshold(pathToSave, K_str, Istim_str, dt);
     createFileIThresholdStim(pathToSave, K_str, Imax, Istim_str);
-    cd([pathToSave '/' K_str '/' Istim_str])
+    initialPath = cd([pathToSave '/' K_str '/' Istim_str]);
     ! ./runelv 1 data/main_file_IThreshold.dat post/IThreshold_
     a=load('post/IThreshold_00000151.var');
     dt_results = a(2,1)-a(1,1);
@@ -54,7 +54,6 @@ if(~isfield(sim_stat,'maxIStim'))
     V(:,4)=a(:,2);
     a=load('post/IThreshold_00000251.var');
     V(:,5)=a(:,2);
-    cd ../../..
     cond = testConduction(V,dt_results);
     
     if(cond)
@@ -99,7 +98,6 @@ while(sim_stat.maxIStim-sim_stat.minIStim-sim_stat.IStep>1e-3)
     V(:,4)=a(:,2);
     a=load('post/IThreshold_00000251.var');
     V(:,5)=a(:,2);
-    cd ../../..
     cond = testConduction(V,dt_results);
 
     if(cond)
@@ -112,6 +110,7 @@ while(sim_stat.maxIStim-sim_stat.minIStim-sim_stat.IStep>1e-3)
 
 end
 
+cd(initialPath)
 sim_stat.IThreshold = sim_stat.maxIStim;
 sim_stat.IStim = sim_stat.IThreshold * 2;
 

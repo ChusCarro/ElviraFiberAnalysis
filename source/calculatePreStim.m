@@ -15,8 +15,7 @@ function [state, new_pre_dur] = calculatePreStim(pathToSave, K_str, h_index, j_i
         copyfile('base','base-preStim')
         delete('base/*.*')
         delete('base/post/*')
-        a=load('base-preStim/post/preStim_00000201.var');
-        cd ../..
+        a=load('base-preStim/post/preStim_prc0_00000201.var');
 
         V=a(:,2);
         step_save = a(2,1)-a(1,1);
