@@ -5,7 +5,7 @@ function [state, new_pre_dur] = calculatePreStim(pathToSave, K_str, h_index, j_i
         createMainFilePreStim([pathToSave '/' K_str],pre_dur,pre_step,dt)
 
         [s]=rmdir([pathToSave '/' K_str '/base-preStim'],'s');
-        cd([pathToSave '/' K_str '/base'])
+        initial = cd([pathToSave '/' K_str '/base']);
 
         delete('data/restart_*_prc_0.bin');
         delete('post/*');
@@ -35,7 +35,7 @@ function [state, new_pre_dur] = calculatePreStim(pathToSave, K_str, h_index, j_i
         cd([pathToSave '/' K_str '/base/data'])
         copyfile(['restart_' num2str(restart_file_step) '_prc_0.bin'],'restartPreStim_prc_0.bin');
         delete('restart_*_prc_0.bin');
-        cd ../../../..
+        cd(initialPath)
     end
 
     state = true;
