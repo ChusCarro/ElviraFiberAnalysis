@@ -1,6 +1,6 @@
-function createMainFile(pathToSave,title,duration,dt,load,save,step_restart)
+function createMainFile(pathToSave,fileName,title,duration,dt,load,save,step_restart)
 
-f=fopen([pathToSave '/base/data/main_file_preStim.dat'],'w');
+f=fopen([pathToSave '/data/' fileName '.dat'],'w');
 
 restart = false;
 readRestart = false;
@@ -38,13 +38,14 @@ fprintf(f,'#STEP\n');
 fprintf(f,'Single stimulation\n');
 fprintf(f,'!------------------------------------------------------\n');
 if(restart)
-  fprintf(f,['*RESTART, ' num2str(2+readRestart+writeRestart)])
-  if(writeRestart)
+  fprintf(f,['*RESTART, ' num2str(2+readRestart+writeRestart)]);
+  if(readRestart)
     fprintf(f,[', FILE_R:"' load '"']);
   end
   if(writeRestart)
     fprintf(f,[', FILE_W:"' save '"\n']);
-    fprintf(f,num2str(step_restart));
+    fprintf(f,num2str(round(step_restart/dt)));
+  end
   fprintf(f,'\n!------------------------------------------------------\n');
 end
 fprintf(f,'*PARAM_NODE, FILE:"file_param_node.dat"\n');
@@ -63,10 +64,9 @@ fprintf(f,'!------------------------------------------------------\n');
 fprintf(f,'*NODEOUTPUT, FILE:"file_node_output.dat"\n');
 fprintf(f,'*G_OUTPUT\n');
 fprintf(f,'1\n');
-fprintf(f,'2 500\n');
+fprintf(f,['2 ' num2str(ceil(duration/dt)*2) '\n']);
 fprintf(f,'!------------------------------------------------------\n');
 fprintf(f,'#ENDSTEP\n');
 fprintf(f,'#ENDPROBLEM\n');
 fprintf(f,'\n');
-
 fclose(f);

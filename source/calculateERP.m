@@ -38,10 +38,10 @@ for i=1:length(K)
         createFileParamNode(pathToSave,K(i),K_index,K_str{i})
     end
 
-    [preStim_stat(i),new_pre_dur(i)] = calculatePreStim(pathToSave, K_str{i}, h_index, j_index, fun_sodium, pre_dur, pre_step, dt);
+    [preStim_stat(i),new_pre_dur(i)] = calculatePreStim([pathToSave '/' K_str{i}],K(i), h_index, j_index, fun_sodium, pre_dur, pre_step, dt);
     
     while(~preStim_stat(i))
-        [preStim_stat(i),new_pre_dur(i)] =  calculatePreStim(pathToSave, K_str{i}, h_index, j_index, fun_sodium, new_pre_dur(i), pre_step, dt);
+        [preStim_stat(i),new_pre_dur(i)] =  calculatePreStim([pathToSave '/' K_str{i}],K(i), h_index, j_index, fun_sodium, new_pre_dur(i), pre_step, dt);
     end
 
     Threshold_stat(i) = calculateIThreshold(pathToSave, K_str{i},Imax, Istep, dt);
