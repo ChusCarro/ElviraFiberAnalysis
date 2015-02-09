@@ -36,7 +36,7 @@ for i=1:length(K)
     if(isempty(dir([pathToSave '/' K_str{i}])))
         [SUCCESS,MESSAGE] =  mkdir([pathToSave '/' K_str{i}]);
         copyfile([pathToSave '/base'],[pathToSave '/' K_str{i} '/base']);
-        createFileParamNode([pathToSave '/base'],K(i),K_index,length(nodes))
+        createFileParamNode([pathToSave '/' K_str{i} '/base'],K(i),K_index,length(nodes))
     end
 
     [preStim_stat(i),new_pre_dur(i)] = calculatePreStim([pathToSave '/' K_str{i}],...

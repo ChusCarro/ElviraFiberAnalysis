@@ -9,3 +9,5 @@ end
 fprintf(f,'\n');
 fclose(f);  
 
+disp('File file_node_output.dat created')
+

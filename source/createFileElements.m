@@ -2,7 +2,6 @@ function createFileElements(pathToSave, nNodes)
 
 f=fopen([pathToSave '/data/file_elements.dat'],'w');
 
-fprintf(f,'!----------- FILE ELEMENTS ----------------------------\n');
 fprintf(f,[num2str(nNodes-1) ' 1\n']);
 fprintf(f,[num2str(nNodes-1) ' HT1DL02\n']);
 for i=1:nNodes-1
