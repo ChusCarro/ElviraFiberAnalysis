@@ -1,8 +1,11 @@
-function [state, new_pre_dur] = calculatePreStim(pathToSave, K, h_index, j_index, fun_sodium,pre_dur, pre_step, dt)
+function [state, new_pre_dur] = calculatePreStim(pathToSave, K, h_index, j_index, fun_sodium,pre_dur, pre_step, dt, project)
 
 if(isempty(dir([pathToSave '/base/data/restartPreStim_prc_0.bin'])))
 
-  createMainFile([pathToSave '/base'],'main_file_preStim', ['Prestimulation to stabilize state variables with K = ' num2str(K) 'mM'] ,pre_dur,dt,[],'restartPreStim',pre_step)
+  createMainFile([pathToSave '/base'],'main_file_preStim',...
+                 project,...
+                 ['Prestimulation to stabilize state variables with K = ' num2str(K) 'mM'] ,...
+                 pre_dur,dt,[],'restartPreStim',pre_step)
   disp('Main file created')
 
   [s]=rmdir([pathToSave '/base-preStim'],'s');

@@ -1,4 +1,4 @@
-function calculateERP(cores, pathToSave, mainElvira, cellType, K, K_index, dt, step_save, pre_dur,...
+function calculateERP(cores, pathToSave, mainElvira, project, cellType, K, K_index, dt, step_save, pre_dur,...
                        pre_step, fun_sodium, h_index, j_index, Imax, Istep, CI_step,sigma_L,Cm,nodes)
 
 %setenv('GFORTRAN_STDIN_UNIT', '5')
@@ -39,10 +39,10 @@ for i=1:length(K)
     if(isempty(dir([pathToSave '/' K_str{i}])))
         [SUCCESS,MESSAGE] =  mkdir([pathToSave '/' K_str{i}]);
         copyfile([pathToSave '/base'],[pathToSave '/' K_str{i} '/base']);
-        createFileParamNode(pathToSave,K(i),K_index,K_str{i})
+        createFileParamNode([pathToSave '/base'],K(i),K_index,length(nodes))
     end
 
-    [preStim_stat(i),new_pre_dur(i)] = calculatePreStim([pathToSave '/' K_str{i}],K(i), h_index, j_index, fun_sodium, pre_dur, pre_step, dt);
+    [preStim_stat(i),new_pre_dur(i)] = calculatePreStim([pathToSave '/' K_str{i}],K(i), h_index, j_index, fun_sodium, pre_dur, pre_step, dt, project);
     
     while(~preStim_stat(i))
         [preStim_stat(i),new_pre_dur(i)] =  calculatePreStim([pathToSave '/' K_str{i}],K(i), h_index, j_index, fun_sodium, new_pre_dur(i), pre_step, dt);

@@ -1,4 +1,4 @@
-function createMainFile(pathToSave,fileName,title,duration,dt,load,save,step_restart)
+function createMainFile(pathToSave,fileName,project,simulation,duration,dt,load,save,step_restart)
 
 f=fopen([pathToSave '/data/' fileName '.dat'],'w');
 
@@ -19,7 +19,7 @@ end
 
 fprintf(f,'!------------------------------------------------------\n');
 fprintf(f,'#TITLE\n');
-fprintf(f,[title '\n']);
+fprintf(f,[project '\n']);
 fprintf(f,'!------------------------------------------------------\n');
 fprintf(f,'#ANALYSISTYPE\n');
 fprintf(f,'1\n');
@@ -35,7 +35,7 @@ fprintf(f,'!------------------------------------------------------\n');
 fprintf(f,'#ELEMENTS, FILE:"file_elements.dat"\n');
 fprintf(f,'!------------------------------------------------------\n');
 fprintf(f,'#STEP\n');
-fprintf(f,'Single stimulation\n');
+fprintf(f,[simulation '\n');
 fprintf(f,'!------------------------------------------------------\n');
 if(restart)
   fprintf(f,['*RESTART, ' num2str(2+readRestart+writeRestart)]);
