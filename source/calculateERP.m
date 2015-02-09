@@ -1,5 +1,5 @@
 function calculateERP(cores, pathToSave, mainElvira, cellType, K, K_index, dt, step_save, pre_dur,...
-                       pre_step, fun_sodium, h_index, j_index, Imax, Istep, CI_step)
+                       pre_step, fun_sodium, h_index, j_index, Imax, Istep, CI_step,sigma_L,Cm)
 
 %setenv('GFORTRAN_STDIN_UNIT', '5')
 %setenv('GFORTRAN_STDOUT_UNIT', '6')
@@ -17,6 +17,7 @@ if(isempty(dir([pathToSave '/base'])))
     mkdir([pathToSave '/base/data'])
     mkdir([pathToSave '/base/post'])
     createRunElv(pathToSave,mainElvira)
+    createFileMaterial([pathToSave '/base'],sigma_L,1,Cm);
     createFilePropNod(pathToSave, cellType);
     createFileNodeOutput(pathToSave, step_save);
 end
