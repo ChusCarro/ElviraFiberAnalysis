@@ -19,8 +19,10 @@ Istep = 1;
 CI_step = 0.1;
 sigma_L = 0.0013;
 Cm = 1;
+nodes = [0:0.01:4];
+
 calculateERP(cores, pathToSave, mainElvira, cellType, K, K_index, dt,...
              step_save, pre_dur, pre_step, fun_sodium, h_index,...
-             j_index, Imax, Istep, CI_step, sigma_L, Cm)
+             j_index, Imax, Istep, CI_step, sigma_L, Cm, nodes)
 
 exit

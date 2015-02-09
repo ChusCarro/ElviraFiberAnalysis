@@ -21,6 +21,7 @@ if(isempty(dir([pathToSave '/base'])))
     createFilePropNod([pathToSave '/base'], cellType);
     createFilePropElement([pathToSave '/base']);
     createFileNodes([pathToSave '/base'],nodes);
+    createFileElements([pathToSave '/base'],length(nodes));
     createFileNodeOutput([pathToSave '/base'], step_save);
 end
 
