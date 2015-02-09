@@ -1,4 +1,4 @@
-function [state, new_pre_dur] = calculatePreStim(pathToSave, K, h_index, j_index, fun_sodium,pre_dur, pre_step, dt, project)
+function [state, new_pre_dur] = calculatePreStim(pathToSave, K, h_index, j_index, fun_sodium,pre_dur, pre_step, dt, nodes, project)
 
 if(isempty(dir([pathToSave '/base/data/restartPreStim_prc_0.bin'])))
 
@@ -21,13 +21,13 @@ if(isempty(dir([pathToSave '/base/data/restartPreStim_prc_0.bin'])))
   copyfile('base','base-preStim')
   delete('base/*.*')
   delete('base/post/*')
-  a=load('base-preStim/post/preStim_prc0_00000201.var');
 
+  a=load(['base-preStim/post/preStim_prc0_' sprintf('%08d',nodes((end-1)/2)) '.var']);
   V=a(:,2);
   step_save = a(2,1)-a(1,1);
   h=a(:,h_index);
   j=a(:,j_index);
-  gates_stat = fun_sodium(V);
+  gates_stat = fun_sodium(V(:,i));
   err = abs((h.*j-gates_stat)./gates_stat)*100;
   [max_err,ind_err]=max(err);
   steps_pre = find(err(ind_err:end)<0.1,1,'first')+ind_err-1;

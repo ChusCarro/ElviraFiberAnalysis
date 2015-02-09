@@ -28,9 +28,8 @@ Threshold_stat = zeros(size(K));
 S1_stat = zeros(size(K));
 
 
-%matlabpool(cores)
-%par
-for i=1:length(K)
+matlabpool(cores)
+parfor i=1:length(K)
     K_str{i} = ['K_' num2str(K(i))];
 
     if(isempty(dir([pathToSave '/' K_str{i}])))
@@ -40,26 +39,26 @@ for i=1:length(K)
     end
 
     [preStim_stat(i),new_pre_dur(i)] = calculatePreStim([pathToSave '/' K_str{i}],...
-                                            K(i), h_index, j_index, fun_sodium, pre_dur, pre_step, dt, project);
+                                            K(i), h_index, j_index, fun_sodium, pre_dur, pre_step, dt, nodes, project);
     
     while(~preStim_stat(i))
         [preStim_stat(i),new_pre_dur(i)] =  calculatePreStim([pathToSave '/' K_str{i}],...
-                                                 K(i), h_index, j_index, fun_sodium, new_pre_dur(i), pre_step, dt);
+                                                 K(i), h_index, j_index, fun_sodium, new_pre_dur(i), pre_step, dt, nodes, project);
     end
 
-    Threshold_stat(i) = calculateIThreshold(pathToSave, K_str{i},Imax, Istep, dt);
-
-    if(~Threshold_stat(i))
-        continue;
-    end
-    
-    S1_stat(i)=runS1(pathToSave, K_str{i}, dt);
-
-    if(~S1_stat(i))
-        continue;
-    end
-    
-    calculateSingleERP(pathToSave, K_str{i}, CI_step, dt);
+%    Threshold_stat(i) = calculateIThreshold(pathToSave, K_str{i},Imax, Istep, dt);
+%
+%    if(~Threshold_stat(i))
+%        continue;
+%    end
+%    
+%    S1_stat(i)=runS1(pathToSave, K_str{i}, dt);
+%
+%    if(~S1_stat(i))
+%        continue;
+%    end
+%    
+%    calculateSingleERP(pathToSave, K_str{i}, CI_step, dt);
 end
 
-%matlabpool close
+matlabpool close
