@@ -16,10 +16,11 @@ if(isempty(dir([pathToSave '/base'])))
     mkdir([pathToSave '/base'])
     mkdir([pathToSave '/base/data'])
     mkdir([pathToSave '/base/post'])
-    createRunElv(pathToSave,mainElvira)
+    createRunElv([pathToSave '/base'],mainElvira)
     createFileMaterial([pathToSave '/base'],sigma_L,1,Cm);
-    createFilePropNod(pathToSave, cellType);
-    createFileNodeOutput(pathToSave, step_save);
+    createFilePropNod([pathToSave '/base'], cellType);
+    createFilePropElement([pathToSave '/base']);
+    createFileNodeOutput([pathToSave '/base'], step_save);
 end
 
 K_str = cell(length(K));
