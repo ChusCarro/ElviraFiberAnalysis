@@ -35,7 +35,7 @@ fprintf(f,'!------------------------------------------------------\n');
 fprintf(f,'#ELEMENTS, FILE:"file_elements.dat"\n');
 fprintf(f,'!------------------------------------------------------\n');
 fprintf(f,'#STEP\n');
-fprintf(f,[simulation '\n');
+fprintf(f,[simulation '\n']);
 fprintf(f,'!------------------------------------------------------\n');
 if(restart)
   fprintf(f,['*RESTART, ' num2str(2+readRestart+writeRestart)]);

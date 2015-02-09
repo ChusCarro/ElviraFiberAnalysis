@@ -1,5 +1,5 @@
 function calculateERP(cores, pathToSave, mainElvira, project, cellType, K, K_index, dt, step_save, pre_dur,...
-                       pre_step, fun_sodium, h_index, j_index, Imax, Istep, CI_step,sigma_L,Cm,nodes)
+                       pre_step, fun_sodium, h_index, j_index, Imax, Istep, CI_step,sigma_L,Cm,nodes, nodeOut)
 
 %setenv('GFORTRAN_STDIN_UNIT', '5')
 %setenv('GFORTRAN_STDOUT_UNIT', '6')
@@ -22,7 +22,7 @@ if(isempty(dir([pathToSave '/base'])))
     createFilePropElement([pathToSave '/base']);
     createFileNodes([pathToSave '/base'],nodes);
     createFileElements([pathToSave '/base'],length(nodes));
-    createFileNodeOutput([pathToSave '/base'], step_save);
+    createFileNodeOutput([pathToSave '/base'], step_save, nodeOut);
 end
 
 K_str = cell(length(K));
