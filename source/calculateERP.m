@@ -1,9 +1,6 @@
 function calculateERP(cores, pathToSave, mainElvira, project, cellType, K, K_index, dt, step_save, pre_dur,...
                        pre_step, fun_sodium, h_index, j_index, Imax, Istep, CI_step,sigma_L,Cm,nodes, nodeOut)
 
-%setenv('GFORTRAN_STDIN_UNIT', '5')
-%setenv('GFORTRAN_STDOUT_UNIT', '6')
-%setenv('GFORTRAN_STDERR_UNIT', '0')
 
 [SUCCESS,MESSAGE] = mkdir(pathToSave);
 
@@ -12,7 +9,6 @@ if(SUCCESS==0)
 end
 
 if(isempty(dir([pathToSave '/base'])))
-    %copyfile('base',[pathToSave '/base']);
     mkdir([pathToSave '/base'])
     mkdir([pathToSave '/base/data'])
     mkdir([pathToSave '/base/post'])
@@ -31,6 +27,7 @@ new_pre_dur = zeros(size(K));
 Threshold_stat = zeros(size(K));
 S1_stat = zeros(size(K));
 
+
 %matlabpool(cores)
 %par
 for i=1:length(K)
@@ -42,10 +39,12 @@ for i=1:length(K)
         createFileParamNode([pathToSave '/base'],K(i),K_index,length(nodes))
     end
 
-    [preStim_stat(i),new_pre_dur(i)] = calculatePreStim([pathToSave '/' K_str{i}],K(i), h_index, j_index, fun_sodium, pre_dur, pre_step, dt, project);
+    [preStim_stat(i),new_pre_dur(i)] = calculatePreStim([pathToSave '/' K_str{i}],...
+                                            K(i), h_index, j_index, fun_sodium, pre_dur, pre_step, dt, project);
     
     while(~preStim_stat(i))
-        [preStim_stat(i),new_pre_dur(i)] =  calculatePreStim([pathToSave '/' K_str{i}],K(i), h_index, j_index, fun_sodium, new_pre_dur(i), pre_step, dt);
+        [preStim_stat(i),new_pre_dur(i)] =  calculatePreStim([pathToSave '/' K_str{i}],...
+                                                 K(i), h_index, j_index, fun_sodium, new_pre_dur(i), pre_step, dt);
     end
 
     Threshold_stat(i) = calculateIThreshold(pathToSave, K_str{i},Imax, Istep, dt);
