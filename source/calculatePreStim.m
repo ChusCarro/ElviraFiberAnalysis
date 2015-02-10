@@ -40,7 +40,7 @@ if(isempty(dir([pathToSave '/base/data/restartPreStim_prc_0.bin'])))
   restart_file_step =round(ceil(steps_pre*step_save/(pre_step/dt))*(pre_step/dt));
   cd([pathToSave '/base/data']);
   copyfile(['restartPreStim_' num2str(restart_file_step) '_prc_0.bin'],'restartPreStim_prc_0.bin');
-  delete('restart_*_prc_0.bin');
+  delete('restartPreStim_*_prc_0.bin');
   cd(initialPath);
 end
 
