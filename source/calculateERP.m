@@ -39,11 +39,11 @@ parfor i=1:length(K)
     end
 
     [preStim_stat(i),new_pre_dur(i)] = calculatePreStim([pathToSave '/' K_str{i}],...
-                                            K(i), h_index, j_index, fun_sodium, pre_dur, pre_step, dt, nodes, project);
+                                            K(i), h_index, j_index, fun_sodium, pre_dur, pre_step, dt, nodeOut, project);
     
     while(~preStim_stat(i))
         [preStim_stat(i),new_pre_dur(i)] =  calculatePreStim([pathToSave '/' K_str{i}],...
-                                                 K(i), h_index, j_index, fun_sodium, new_pre_dur(i), pre_step, dt, nodes, project);
+                                                 K(i), h_index, j_index, fun_sodium, new_pre_dur(i), pre_step, dt, nodeOut, project);
     end
 
 %    Threshold_stat(i) = calculateIThreshold(pathToSave, K_str{i},Imax, Istep, dt);
