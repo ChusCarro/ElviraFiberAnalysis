@@ -38,7 +38,17 @@ fprintf(f,'#STEP\n');
 fprintf(f,[simulation '\n']);
 fprintf(f,'!------------------------------------------------------\n');
 if(restart)
-  fprintf(f,['*RESTART, ' num2str(2+readRestart+writeRestart)]);
+  fprintf(f,'*RESTART, ');
+  if(readRestart)
+    if(writeRestart)
+      fprintf(f,'4 ');
+    else
+      fprintf(f,'0 ');
+    end
+  else
+    fprintf(f,'3 ');
+  end
+
   if(readRestart)
     fprintf(f,[', FILE_R:"' load '"']);
   end

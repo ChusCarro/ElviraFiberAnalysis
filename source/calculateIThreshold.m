@@ -1,10 +1,10 @@
-function conduction = calculateIThreshold(pathToSave, K_str, Imax, IStep, dt)
+function conduction = calculateIThreshold(pathToSave, K, Imax, IStep, dt,project)
 
 conduction =false;
-file = dir([pathToSave '/' K_str '/status.mat']);
+file = dir([pathToSave '/status.mat']);
 
 if(~isempty(file))
-    sim_stat = load([pathToSave '/' K_str '/' '/status.mat']);
+    sim_stat = load([pathToSave '/status.mat']);
 else
     sim_stat = struct();
 end
@@ -29,30 +29,33 @@ end
 
 if(~isfield(sim_stat,'maxIStim'))
     if(sim_stat.minIStim>=Imax)
-        save([pathToSave '/' K_str '/status.mat'],'-struct','sim_stat');
+        save([pathToSave '/status.mat'],'-struct','sim_stat');
         return;
     end
 
-    Istim_str = ['Istim_' num2str(round(Imax/IStep),'%04d')];
-    if(~isempty(dir([pathToSave '/' K_str '/' Istim_str])))
-        rmdir([pathToSave '/' K_str '/' Istim_str],'s')
+    Istim_str = ['Istim_' num2str(Imax)];
+    if(~isempty(dir([pathToSave '/' Istim_str])))
+        rmdir([pathToSave '/' Istim_str],'s')
     end
-    copyfile([pathToSave '/' K_str '/base'],[pathToSave '/' K_str '/' Istim_str])
-    createMainFileIThreshold(pathToSave, K_str, Istim_str, dt);
-    createFileIThresholdStim(pathToSave, K_str, Imax, Istim_str);
-    initialPath = cd([pathToSave '/' K_str '/' Istim_str]);
+    copyfile([pathToSave '/base'],[pathToSave '/' Istim_str])
+    createFileStimulus([pathToSave '/' Istim_str],[0:1000:4000],1,Imax);
+    createMainFile([pathToSave '/' Istim_str],'main_file_IThreshold', project, ...
+                 ['Calculation of umbral threshold with K = ' num2str(K) 'mM and Istim = ' num2str(Imax) 'pA/pF'] ,...
+                 5000,dt,'restartPreStim_prc_',[],0)
+
+    initialPath = cd([pathToSave '/' Istim_str]);
     ! ./runelv 1 data/main_file_IThreshold.dat post/IThreshold_
-    a=load('post/IThreshold_00000151.var');
+    a=load('post/IThreshold_00000150.var');
     dt_results = a(2,1)-a(1,1);
     V=zeros(length(a(:,2)),5);
     V(:,1)=a(:,2);
-    a=load('post/IThreshold_00000176.var');
+    a=load('post/IThreshold_00000175.var');
     V(:,2)=a(:,2);
-    a=load('post/IThreshold_00000201.var');
+    a=load('post/IThreshold_00000200.var');
     V(:,3)=a(:,2);
-    a=load('post/IThreshold_00000226.var');
+    a=load('post/IThreshold_00000225.var');
     V(:,4)=a(:,2);
-    a=load('post/IThreshold_00000251.var');
+    a=load('post/IThreshold_00000250.var');
     V(:,5)=a(:,2);
     cond = testConduction(V,dt_results);
     
@@ -69,7 +72,7 @@ else
     conduction = true;
 end
 
-save([pathToSave '/' K_str '/status.mat'],'-struct','sim_stat');
+save([pathToSave '/status.mat'],'-struct','sim_stat');
 
 if(~sim_stat.conduction)
     return;
