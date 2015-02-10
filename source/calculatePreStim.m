@@ -22,7 +22,7 @@ if(isempty(dir([pathToSave '/base/data/restartPreStim_prc_0.bin'])))
   delete('base/*.*')
   delete('base/post/*')
 
-  a=load(['base-preStim/post/preStim_prc0_' sprintf('%08d',nodes((end-1)/2)) '.var']);
+  a=load(['base-preStim/post/preStim_prc0_' sprintf('%08d',(length(nodes)+1)/2 '.var']);
   V=a(:,2);
   step_save = a(2,1)-a(1,1);
   h=a(:,h_index);
