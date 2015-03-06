@@ -1,4 +1,4 @@
-function [conduction, CV, APD90] = testConduction(V,dt)
+function [conduction, CV, APD90] = testConduction(V,dt,numStim)
 
 CV = cell(length(V(1,:)),1);
 
@@ -14,25 +14,19 @@ for i=1:n_cells
     [APD90_c{i},APD_time{i}]= calculateAPD(V(:,i),dt);
 end
 
-n=length(APD90_c{1});
-
-if(n==0)
-    conduction=false;
-    CV=[];
-    APD90=[];
-    return;
-end
-
-for i=2:n_cells
-    if(n~=length(APD90_c{i}))
+for i=1:n_cells
+    if(numStim~=length(APD90_c{i}))
+        conduction=false;
+        CV=[];
+        APD90=[];
         return;
     end
 end
 
-conduction_v = true(1,n);
+conduction_v = true(1,numStim);
 
 APD90_v = cell2mat(APD90_c);
-for i=1:n
+for i=1:numStim
   if(~isempty(find(APD90_v(:,i)<150)))
     conduction_v(i)=false;
   end  
@@ -44,6 +38,6 @@ CV = mean(250./diff(cell2mat(APD_time)));
 APD90(~conduction_v)=[];
 CV(~conduction_v)=[];
 
-if(n==length(APD90))
+if(numStim==length(APD90))
     conduction = true;
 end

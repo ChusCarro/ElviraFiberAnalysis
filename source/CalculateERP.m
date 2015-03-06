@@ -1,4 +1,4 @@
-function calculateERP(cores, pathToSave, mainElvira, project, cellType, K, K_index, dt, step_save, pre_dur,...
+function CalculateERP(cores, pathToSave, mainElvira, project, cellType, K, K_index, dt, step_save, pre_dur,...
                        pre_step, fun_sodium, h_index, j_index, Imax, Istep, CI_step,sigma_L,Cm,nodes, nodeOut)
 
 
@@ -48,16 +48,17 @@ for i=1:length(K)
     end
 
     Threshold_stat(i) = calculateIThreshold([pathToSave '/' K_str{i}], K(i), Imax, Istep, dt,project)
-%
-%    if(~Threshold_stat(i))
-%        continue;
-%    end
-%    
-%    S1_stat(i)=runS1(pathToSave, K_str{i}, dt);
-%
-%    if(~S1_stat(i))
-%        continue;
-%    end
+
+    if(~Threshold_stat(i))
+        continue;
+    end
+    
+    S1_stat(i)=runS1([pathToSave '/' K_str{i}],K(i), dt, project);
+
+
+    if(~S1_stat(i))
+        continue;
+    end
 %    
 %    calculateSingleERP(pathToSave, K_str{i}, CI_step, dt);
 end

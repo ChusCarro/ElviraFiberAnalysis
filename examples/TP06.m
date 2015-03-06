@@ -1,17 +1,17 @@
-addpath('../source')
+addpath([pwd() '/../source'])
 
-pathToSave = '~/FiberResults/GrandiEstable0001';
+pathToSave = '~/FiberResults/TP06';
 mainElvira = '~/Software/Elvira/Elvira20150121/bin/mainelv_infiniband_gcc';
-project = 'Hperkalemia in fibre - Grandi Model';
-cellType = 13;
+project = 'Hperkalemia in fibre - ten Tusscher & Panfilov 2006 Model';
+cellType = 3;
 K=4;%[4:1:11];
 cores=4;
 K_index = 17;
-h_index = 13;
-j_index = 14;
-dt = 0.002;
-step_save=50;
-fun_sodium=@sodiumGrandi;
+h_index = 10;
+j_index = 11;
+dt = 0.02;
+step_save=5;
+fun_sodium=@sodiumTenTusscher;
 %[s]=rmdir(Model,'s');
 pre_dur = 1000;
 pre_step = 100;
