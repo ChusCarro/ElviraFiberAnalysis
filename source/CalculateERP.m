@@ -59,8 +59,8 @@ for i=1:length(K)
     if(~S1_stat(i))
         continue;
     end
-%    
-%    calculateSingleERP(pathToSave, K_str{i}, CI_step, dt);
+    
+    calculateSingleERP([pathToSave '/' K_str{i}], K(i), CI_step, dt, project);
 end
 
 %matlabpool close
