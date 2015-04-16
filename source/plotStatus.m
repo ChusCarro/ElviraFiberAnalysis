@@ -1,4 +1,4 @@
-function plotStatus(pathToSave,K,K_dirFact)
+function plotStatus(pathToSave,K)
 
 close all;
 
@@ -106,15 +106,15 @@ ylim([0 max([1 IThreshold_plot])*1.05])
 saveas(f,[pathToSave '/IThreshold.fig'])
 saveas(f,[pathToSave '/IThreshold.pdf'])
 
-f=figure;
-plot(K_plot(1:end-1),diff(IThreshold_plot)./diff(K_plot),'-b.','linewidth',1,'MarkerSize',8)
-title('I_{Threshold} slope')
-xlabel('[K^+]_o (mM)')
-ylabel('dI/dK')
-xlim([K_plot(1) K_plot(end-1)])
-ylim([min(diff(IThreshold_plot)./diff(K_plot)) max(diff(IThreshold_plot)./diff(K_plot))])
-saveas(f,[pathToSave '/dIThreshold.fig'])
-saveas(f,[pathToSave '/dIThreshold.pdf'])
+%f=figure;
+%plot(K_plot(1:end-1),diff(IThreshold_plot)./diff(K_plot),'-b.','linewidth',1,'MarkerSize',8)
+%title('I_{Threshold} slope')
+%xlabel('[K^+]_o (mM)')
+%ylabel('dI/dK')
+%xlim([K_plot(1) K_plot(end-1)])
+%ylim([min(diff(IThreshold_plot)./diff(K_plot)) max(diff(IThreshold_plot)./diff(K_plot))])
+%saveas(f,[pathToSave '/dIThreshold.fig'])
+%saveas(f,[pathToSave '/dIThreshold.pdf'])
 
 f=figure;
 stem(K_plot,Conduction_plot.*S1Conduction_plot)
