@@ -7,6 +7,7 @@ cellType = 3;
 K=[4:1:11];
 cores=4;
 K_index = 17;
+K_control = 5.4;
 h_index = 10;
 j_index = 11;
 dt = 0.02;
@@ -30,9 +31,11 @@ dxOut = 0.25;
 CL = 1000;
 numStimIThreshold = 5;
 
-CalculateERP(cores, pathToSave, mainElvira, project, cellType, K, K_index, dt,...
+nodesOut = CalculateERP(cores, pathToSave, mainElvira, project, cellType, K, K_index, K_control, dt,...
              step_save, pre_dur, pre_step, fun_sodium, h_index,...
              j_index, Imax, Istep, CI_step, sigma_L, Cm, HZ, BZ, IZ, dx, dxOut,...
-             nOut, CL, numStimIThreshold)
+             nOut, CL, numStimIThreshold);
 
-exit
+plotIThresholdLimits(pathToSave,nodesOut)
+
+%exit

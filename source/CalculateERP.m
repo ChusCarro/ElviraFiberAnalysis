@@ -1,4 +1,4 @@
-function CalculateERP(cores, pathToSave, mainElvira, project, cellType, K, K_index, dt, step_save, pre_dur,...
+function nodeOut = CalculateERP(cores, pathToSave, mainElvira, project, cellType, K, K_index, K_control, dt, step_save, pre_dur,...
                        pre_step, fun_sodium, h_index, j_index, Imax, Istep, CI_step,sigma_L,Cm,...
                        HZ, BZ, IZ, dx, dxOut, nOut, CL, numStimIThreshold)
 
@@ -37,7 +37,7 @@ if(isempty(dir([pathToSave '/IStim'])))
 end
 
 
-Threshold = calculateIThreshold([pathToSave '/IStim'], Imax, Istep, numStimIThreshold, CL, dt, nodeOut, project)
+Threshold = calculateIThreshold([pathToSave '/IStim'], Imax, Istep, numStimIThreshold, CL, dt, nodeOut,dxOut, project)
 
 if(~Threshold)
    disp('Bad configuration. Unable to find Istim Threshold')
@@ -45,18 +45,19 @@ if(~Threshold)
 end
 
 %matlabpool(cores)
-%parfor i=1:length(K)
-%    K_str{i} = ['K_' num2str(K(i))];
-%
-%    if(isempty(dir([pathToSave '/' K_str{i}])))
-%        [SUCCESS,MESSAGE] =  mkdir([pathToSave '/' K_str{i}]);
-%        copyfile([pathToSave '/base'],[pathToSave '/' K_str{i} '/base']);
-%        createFileParamNode([pathToSave '/' K_str{i} '/base'],K(i),K_index,length(nodes))
-%    end
-%
+parfor i=1:length(K)
+    K_str{i} = ['K_' num2str(K(i))];
+
+    if(isempty(dir([pathToSave '/' K_str{i}])))
+        [SUCCESS,MESSAGE] =  mkdir([pathToSave '/' K_str{i}]);
+        copyfile([pathToSave '/base'],[pathToSave '/' K_str{i} '/base']);
+        copyfile([pathToSave '/IStim/status.mat'],[pathToSave '/' K_str{i} '/status.mat']);
+        createFileParamNode([pathToSave '/' K_str{i} '/base'],K(i),K_index,K_control,length(nodes),dx, HZ, BZ, IZ)
+    end
+
 %    [preStim_stat(i),new_pre_dur(i)] = calculatePreStim([pathToSave '/' K_str{i}],...
 %                                            K(i), h_index, j_index, fun_sodium, pre_dur, pre_step, dt, nodeOut, project);
-%    
+%   
 %    while(~preStim_stat(i))
 %        [preStim_stat(i),new_pre_dur(i)] =  calculatePreStim([pathToSave '/' K_str{i}],...
 %                                                 K(i), h_index, j_index, fun_sodium, new_pre_dur(i), pre_step, dt, nodeOut, project);
@@ -71,6 +72,6 @@ end
 %    end
 %    
 %    calculateSingleERP([pathToSave '/' K_str{i}], K(i), CI_step, dt, project);
-%end
+end
 
 %matlabpool close

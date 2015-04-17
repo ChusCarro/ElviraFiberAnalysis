@@ -1,4 +1,4 @@
-function conduction = calculateIThreshold(pathToSave, Imax, IStep, numStim, CL, dt, nodeOut, project)
+function conduction = calculateIThreshold(pathToSave, Imax, IStep, numStim, CL, dt, nodeOut, dxOut, project)
 
 initialPath = pwd();
 
@@ -52,7 +52,7 @@ if(~isfield(sim_stat,'maxIStim'))
         dt_results = a(2,1)-a(1,1);
         V(:,i)=a(:,2);
     end
-    cond = testConduction(V,dt_results,numStim);
+    cond = testConduction(V,dt_results,numStim,dxOut);
     
     if(cond)
        sim_stat.maxIStim=Imax;
@@ -92,7 +92,7 @@ while(sim_stat.maxIStim-sim_stat.minIStim-sim_stat.IStep>1e-3)
       dt_results = a(2,1)-a(1,1);
       V(:,i)=a(:,2);
     end
-    cond = testConduction(V,dt_results,numStim);
+    cond = testConduction(V,dt_results,numStim,dxOut);
 
     if(cond)
        sim_stat.maxIStim=Istim;
