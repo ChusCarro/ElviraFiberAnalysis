@@ -44,7 +44,7 @@ if(~conduction)
    return
 end
 
-%matlabpool(cores)
+matlabpool(cores)
 parfor i=1:length(K)
     K_str{i} = ['K_' num2str(K(i))];
 
@@ -63,7 +63,7 @@ parfor i=1:length(K)
         continue;
     end
     
-%    calculateSingleERP([pathToSave '/' K_str{i}], K(i), CI_step, dt, project);
+    calculateSingleERP([pathToSave '/' K_str{i}], K(i), CI_step, dt, nodeOut, dxOut, nS1, CL, project);
 end
 
-%matlabpool close
+matlabpool close
