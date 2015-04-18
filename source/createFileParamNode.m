@@ -11,8 +11,10 @@ for i=1:nNodes
       else
           K_value = (K-K_control)*(position-HZ)/BZ+K_control;
       end
-      fprintf(f,[' ' num2str(i) ' 1 ' num2str(K_index) ' ' num2str(K_value) '\n']);
+    else
+        K_value = K_control;
     end
+    fprintf(f,[' ' num2str(i) ' 1 ' num2str(K_index) ' ' num2str(K_value) '\n']);
 end
 fclose(f);
 

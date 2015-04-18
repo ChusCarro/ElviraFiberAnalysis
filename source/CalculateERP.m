@@ -37,9 +37,9 @@ if(isempty(dir([pathToSave '/IStim'])))
 end
 
 
-Threshold = calculateIThreshold([pathToSave '/IStim'], Imax, Istep, numStimIThreshold, CL, dt, nodeOut,dxOut, project)
+conduction = calculateIThreshold([pathToSave '/IStim'], Imax, Istep, numStimIThreshold, CL, dt, nodeOut,dxOut, project);
 
-if(~Threshold)
+if(~conduction)
    disp('Bad configuration. Unable to find Istim Threshold')
    return
 end
@@ -55,15 +55,8 @@ parfor i=1:length(K)
         createFileParamNode([pathToSave '/' K_str{i} '/base'],K(i),K_index,K_control,length(nodes),dx, HZ, BZ, IZ)
     end
 
-%    [preStim_stat(i),new_pre_dur(i)] = calculatePreStim([pathToSave '/' K_str{i}],...
-%                                            K(i), h_index, j_index, fun_sodium, pre_dur, pre_step, dt, nodeOut, project);
-%   
-%    while(~preStim_stat(i))
-%        [preStim_stat(i),new_pre_dur(i)] =  calculatePreStim([pathToSave '/' K_str{i}],...
-%                                                 K(i), h_index, j_index, fun_sodium, new_pre_dur(i), pre_step, dt, nodeOut, project);
-%    end
-%
-%    
+    calculatePreStim([pathToSave '/' K_str{i}], K(i), h_index, j_index, fun_sodium, pre_dur, pre_step, dt, nodeOut, project);
+    
 %    S1_stat(i)=runS1([pathToSave '/' K_str{i}],K(i), dt, project);
 %
 %
