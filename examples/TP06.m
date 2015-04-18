@@ -4,8 +4,8 @@ pathToSave = '~/FiberResults/TP06';
 mainElvira = '~/Software/Elvira/Elvira20150121/bin/mainelv_infiniband_gcc';
 project = 'Hperkalemia in fibre - ten Tusscher & Panfilov 2006 Model';
 cellType = 3;
-K=[4:1:11];
-cores=4;
+K=[4 5 5.4 6:1:9 10 10.1 10.2:0.01:10.4 10.5:0.1:11];
+cores=3;
 K_index = 17;
 K_control = 5.4;
 h_index = 7;
@@ -37,6 +37,8 @@ nodesOut = CalculateERP(cores, pathToSave, mainElvira, project, cellType, K, K_i
              j_index, Imax, Istep, CI_step, sigma_L, Cm, HZ, BZ, IZ, dx, dxOut,...
              nOut, CL, numStimIThreshold, nS1);
 
+plotStatus(pathToSave,K)
 plotIThresholdLimits(pathToSave,nodesOut)
+plotCILimits(pathToSave,K,nodesOut)
 
-%exit
+exit

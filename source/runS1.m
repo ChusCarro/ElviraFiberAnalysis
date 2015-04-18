@@ -44,8 +44,6 @@ if(~isfield(sim_stat,'APD2'))
 
     [conduction, CV, APD] = testConduction(V,dt_results,2,dxOut);
     
-    conduction = conduction(1) & conduction(2);
-
     sim_stat.S1Conduction = conduction;
     sim_stat.CV1  = CV(1);
     sim_stat.APD1 = APD(1);
