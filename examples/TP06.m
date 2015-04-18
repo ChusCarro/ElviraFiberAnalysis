@@ -30,11 +30,12 @@ dxOut = 0.25;
 
 CL = 1000;
 numStimIThreshold = 5;
+nS1 = 10;
 
 nodesOut = CalculateERP(cores, pathToSave, mainElvira, project, cellType, K, K_index, K_control, dt,...
              step_save, pre_dur, pre_step, fun_sodium, h_index,...
              j_index, Imax, Istep, CI_step, sigma_L, Cm, HZ, BZ, IZ, dx, dxOut,...
-             nOut, CL, numStimIThreshold);
+             nOut, CL, numStimIThreshold, nS1);
 
 plotIThresholdLimits(pathToSave,nodesOut)
 

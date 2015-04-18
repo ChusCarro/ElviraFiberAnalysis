@@ -1,6 +1,6 @@
 function nodeOut = CalculateERP(cores, pathToSave, mainElvira, project, cellType, K, K_index, K_control, dt, step_save, pre_dur,...
                        pre_step, fun_sodium, h_index, j_index, Imax, Istep, CI_step,sigma_L,Cm,...
-                       HZ, BZ, IZ, dx, dxOut, nOut, CL, numStimIThreshold)
+                       HZ, BZ, IZ, dx, dxOut, nOut, CL, numStimIThreshold,nS1)
 
 L = HZ+BZ+IZ;
 nodes = 0:dx:L;
@@ -57,13 +57,12 @@ parfor i=1:length(K)
 
     calculatePreStim([pathToSave '/' K_str{i}], K(i), h_index, j_index, fun_sodium, pre_dur, pre_step, dt, nodeOut, project);
     
-%    S1_stat(i)=runS1([pathToSave '/' K_str{i}],K(i), dt, project);
-%
-%
-%    if(~S1_stat(i))
-%        continue;
-%    end
-%    
+    S1_stat(i)=runS1([pathToSave '/' K_str{i}],K(i), dt, nodeOut, dxOut, nS1, CL, project);
+
+    if(~S1_stat(i))
+        continue;
+    end
+    
 %    calculateSingleERP([pathToSave '/' K_str{i}], K(i), CI_step, dt, project);
 end
 

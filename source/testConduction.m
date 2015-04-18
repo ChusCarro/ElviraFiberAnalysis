@@ -43,5 +43,5 @@ end
 
 APD90 = mean(cell2mat(APD90_c));
 APD_time_v = cell2mat(APD_time);
-CV = (n_cells-1)*dxOut*1000./(APD_time_v(:,end)-APD_time_v(:,1))
+CV = (n_cells-1)*dxOut*1000./(APD_time_v(end,:)-APD_time_v(1,:));
 conduction = true;
