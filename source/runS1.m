@@ -45,10 +45,12 @@ if(~isfield(sim_stat,'APD2'))
     [conduction, CV, APD] = testConduction(V,dt_results,2,dxOut);
     
     sim_stat.S1Conduction = conduction;
-    sim_stat.CV1  = CV(1);
-    sim_stat.APD1 = APD(1);
-    sim_stat.CV2  = CV(2);
-    sim_stat.APD2 = APD(2);
+    if(conduction)
+      sim_stat.CV1  = CV(1);
+      sim_stat.APD1 = APD(1);
+      sim_stat.CV2  = CV(2);
+      sim_stat.APD2 = APD(2);
+    end
 end
 
 save([pathToSave '/status.mat'],'-struct','sim_stat');

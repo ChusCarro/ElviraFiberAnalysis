@@ -36,11 +36,14 @@ for i=1:length(K)
             CV2_plot = [CV2_plot NaN];
         end
 
-        if(isfield(sim_stat,'ERP1') & ~isempty(sim_stat.ERP1) & ~isempty(sim_stat.ERP2))
-            ERP1_plot = [ERP1_plot min([sim_stat.ERP1 sim_stat.ERP2])];
-            ERP2_plot = [ERP2_plot max([sim_stat.ERP1 sim_stat.ERP2])];
+        if(isfield(sim_stat,'ERP1') & ~isempty(sim_stat.ERP1))
+            ERP1_plot = [ERP1_plot sim_stat.ERP1];
         else
             ERP1_plot = [ERP1_plot NaN];
+        end
+        if(isfield(sim_stat,'ERP2') & ~isempty(sim_stat.ERP2))
+            ERP2_plot = [ERP2_plot sim_stat.ERP2];
+        else
             ERP2_plot = [ERP2_plot NaN];
         end
 
@@ -67,8 +70,8 @@ end
 
 K_plot
 f=figure;
-plot(K_plot,APD1_plot,'b',K_plot,APD2_plot,'b')%,'linewidth',1,'MarkerSize',8)
-%plot(K_plot,APD1_plot,'-b.',K_plot,APD2_plot,'-b.')%,'linewidth',1,'MarkerSize',8)
+%plot(K_plot,APD1_plot,'b',K_plot,APD2_plot,'b')%,'linewidth',1,'MarkerSize',8)
+plot(K_plot,APD1_plot,'-b.',K_plot,APD2_plot,'-b.')%,'linewidth',1,'MarkerSize',8)
 title('Action Potential Duration')
 xlabel('[K^+]_o (mM)')
 ylabel('APD_{90} (ms)')
@@ -78,8 +81,8 @@ saveas(f,[pathToSave '/APD_90.fig'])
 saveas(f,[pathToSave '/APD_90.pdf'])
 
 f=figure;
-%plot(K_plot,CV1_plot,'-b.',K_plot,CV2_plot,'-b.')%,'linewidth',1,'MarkerSize',8)
-plot(K_plot,CV1_plot,'b',K_plot,CV2_plot,'b')%,'linewidth',1,'MarkerSize',8)
+plot(K_plot,CV1_plot,'-b.',K_plot,CV2_plot,'-b.')%,'linewidth',1,'MarkerSize',8)
+%plot(K_plot,CV1_plot,'b',K_plot,CV2_plot,'b')%,'linewidth',1,'MarkerSize',8)
 title('Conduction Velocity')
 xlabel('[K^+]_o (mM)')
 ylabel('CV (cm/s)')
@@ -89,8 +92,8 @@ saveas(f,[pathToSave '/CV.fig'])
 saveas(f,[pathToSave '/CV.pdf'])
 
 f=figure;
-%plot(K_plot,ERP1_plot,'-b.',K_plot,ERP2_plot,'-b.')%,'linewidth',1,'MarkerSize',8)
-plot(K_plot,ERP1_plot,'b',K_plot,ERP2_plot,'b')%,'linewidth',1,'MarkerSize',8)
+plot(K_plot,ERP1_plot,'-b.',K_plot,ERP2_plot,'-b.')%,'linewidth',1,'MarkerSize',8)
+%plot(K_plot,ERP1_plot,'b',K_plot,ERP2_plot,'b')%,'linewidth',1,'MarkerSize',8)
 title('Effective Refractory Period')
 xlabel('[K^+]_o (mM)')
 ylabel('ERP (ms)')
@@ -100,8 +103,8 @@ saveas(f,[pathToSave '/ERP.fig'])
 saveas(f,[pathToSave '/ERP.pdf'])
 
 f=figure;
-%plot(K_plot,IThreshold_plot,'-b.')%,'linewidth',1,'MarkerSize',8)
-plot(K_plot,IThreshold_plot,'b')%,'linewidth',1,'MarkerSize',8)
+plot(K_plot,IThreshold_plot,'-b.')%,'linewidth',1,'MarkerSize',8)
+%plot(K_plot,IThreshold_plot,'b')%,'linewidth',1,'MarkerSize',8)
 title('I_{Threshold}')
 xlabel('[K^+]_o (mM)')
 ylabel('I_{Threshold} (pA/pF)')
