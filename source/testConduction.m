@@ -33,12 +33,12 @@ for i=1:numStim
        return
    end
    
-   diff_matrix = (1./differences)*differences';
-   
-   biggerThanMinPercV = find(diff_matrix<minPercV,1);
-   if(~isempty(biggerThanMinPercV))
-       return;
-   end
+%   diff_matrix = (1./differences)*differences';
+%   
+%   biggerThanMinPercV = find(diff_matrix<minPercV,1);
+%   if(~isempty(biggerThanMinPercV))
+%       return;
+%   end
 end
 
 APD90 = median(cell2mat(APD90_c));
