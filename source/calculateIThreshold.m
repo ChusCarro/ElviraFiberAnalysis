@@ -1,10 +1,12 @@
-function conduction = calculateIThreshold(Model, K_str, Imax, IStep, dt)
+function conduction = calculateIThreshold(pathToSave, Imax, IStep, numStim, CL, dt, nodeOut, dxOut, project)
+
+initialPath = pwd();
 
 conduction =false;
-file = dir([Model '/' K_str '/status.mat']);
+file = dir([pathToSave '/status.mat']);
 
 if(~isempty(file))
-    sim_stat = load([Model '/' K_str '/' '/status.mat']);
+    sim_stat = load([pathToSave '/status.mat']);
 else
     sim_stat = struct();
 end
@@ -29,33 +31,28 @@ end
 
 if(~isfield(sim_stat,'maxIStim'))
     if(sim_stat.minIStim>=Imax)
-        save([Model '/' K_str '/status.mat'],'-struct','sim_stat');
+        save([pathToSave '/status.mat'],'-struct','sim_stat');
         return;
     end
 
-    Istim_str = ['Istim_' num2str(round(Imax/IStep),'%04d')];
-    if(~isempty(dir([Model '/' K_str '/' Istim_str])))
-        rmdir([Model '/' K_str '/' Istim_str],'s')
+    Istim_str = ['Istim_' num2str(Imax)];
+    if(~isempty(dir([pathToSave '/' Istim_str])))
+        rmdir([pathToSave '/' Istim_str],'s')
     end
-    copyfile([Model '/' K_str '/base'],[Model '/' K_str '/' Istim_str])
-    createMainFileIThreshold(Model, K_str, Istim_str, dt);
-    createFileIThresholdStim(Model, K_str, Imax, Istim_str);
-    cd([Model '/' K_str '/' Istim_str])
+    copyfile([pathToSave '/base'],[pathToSave '/' Istim_str])
+    createFileStimulus([pathToSave '/' Istim_str],[0:CL:CL*(numStim-1)],1,Imax);
+    createMainFile([pathToSave '/' Istim_str],'main_file_IThreshold', project, ...
+                 ['Calculation of umbral threshold with Istim = ' num2str(Imax) 'pA/pF'] ,...
+                 numStim*CL,dt,[],[],0,false,false)
+
+    cd([pathToSave '/' Istim_str]);
     ! ./runelv 1 data/main_file_IThreshold.dat post/IThreshold_
-    a=load('post/IThreshold_00000151.var');
-    dt_results = a(2,1)-a(1,1);
-    V=zeros(length(a(:,2)),5);
-    V(:,1)=a(:,2);
-    a=load('post/IThreshold_00000176.var');
-    V(:,2)=a(:,2);
-    a=load('post/IThreshold_00000201.var');
-    V(:,3)=a(:,2);
-    a=load('post/IThreshold_00000226.var');
-    V(:,4)=a(:,2);
-    a=load('post/IThreshold_00000251.var');
-    V(:,5)=a(:,2);
-    cd ../../..
-    cond = testConduction(V,dt_results);
+    for i=1:length(nodeOut)
+        a=load(sprintf('post/IThreshold_prc0_%08d.var',nodeOut(i)));
+        dt_results = a(2,1)-a(1,1);
+        V(:,i)=a(:,2);
+    end
+    cond = testConduction(V,dt_results,numStim,dxOut);
     
     if(cond)
        sim_stat.maxIStim=Imax;
@@ -70,7 +67,7 @@ else
     conduction = true;
 end
 
-save([Model '/' K_str '/status.mat'],'-struct','sim_stat');
+save([pathToSave '/status.mat'],'-struct','sim_stat');
 
 if(~sim_stat.conduction)
     return;
@@ -78,29 +75,24 @@ end
 
 while(sim_stat.maxIStim-sim_stat.minIStim-sim_stat.IStep>1e-3)
     Istim = round((sim_stat.maxIStim+sim_stat.minIStim)/2/sim_stat.IStep)*sim_stat.IStep;
-    Istim_str = ['Istim_' num2str(round(Istim/IStep),'%04d')];
-    if(~isempty(dir([Model '/' K_str '/' Istim_str])))
-        rmdir([Model '/' K_str '/' Istim_str],'s')
+    Istim_str = ['Istim_' num2str(Istim)];
+    if(~isempty(dir([pathToSave '/' Istim_str])))
+        rmdir([pathToSave '/' Istim_str],'s')
     end
-    copyfile([Model '/' K_str '/base'],[Model '/' K_str '/' Istim_str])
-    createMainFileIThreshold(Model, K_str, Istim_str, dt);
-    createFileIThresholdStim(Model, K_str, Istim, Istim_str);
-    cd([Model '/' K_str '/' Istim_str])
+    copyfile([pathToSave '/base'],[pathToSave '/' Istim_str])
+    createFileStimulus([pathToSave '/' Istim_str],[0:CL:CL*(numStim-1)],1,Istim);
+    createMainFile([pathToSave '/' Istim_str],'main_file_IThreshold', project, ...
+                 ['Calculation of umbral threshold with Istim = ' num2str(Istim) 'pA/pF'] ,...
+                 numStim*CL,dt,[],[],0,false,false)
+
+    cd([pathToSave '/' Istim_str])
     ! ./runelv 1 data/main_file_IThreshold.dat post/IThreshold_
-    a=load('post/IThreshold_00000151.var');
-    dt_results = a(2,1)-a(1,1);
-    V=zeros(length(a(:,2)),5);
-    V(:,1)=a(:,2);
-    a=load('post/IThreshold_00000176.var');
-    V(:,2)=a(:,2);
-    a=load('post/IThreshold_00000201.var');
-    V(:,3)=a(:,2);
-    a=load('post/IThreshold_00000226.var');
-    V(:,4)=a(:,2);
-    a=load('post/IThreshold_00000251.var');
-    V(:,5)=a(:,2);
-    cd ../../..
-    cond = testConduction(V,dt_results);
+    for i=1:length(nodeOut)
+      a=load(sprintf('post/IThreshold_prc0_%08d.var',nodeOut(i)));
+      dt_results = a(2,1)-a(1,1);
+      V(:,i)=a(:,2);
+    end
+    cond = testConduction(V,dt_results,numStim,dxOut);
 
     if(cond)
        sim_stat.maxIStim=Istim;
@@ -108,11 +100,12 @@ while(sim_stat.maxIStim-sim_stat.minIStim-sim_stat.IStep>1e-3)
        sim_stat.minIStim=Istim;
     end
 
-    save([Model '/' K_str '/status.mat'],'-struct','sim_stat');
+    save([pathToSave '/status.mat'],'-struct','sim_stat');
 
 end
 
+cd(initialPath)
 sim_stat.IThreshold = sim_stat.maxIStim;
 sim_stat.IStim = sim_stat.IThreshold * 2;
 
-save([Model '/' K_str '/status.mat'],'-struct','sim_stat');
+save([pathToSave '/status.mat'],'-struct','sim_stat');

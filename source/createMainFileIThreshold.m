@@ -1,6 +1,6 @@
-function createMainFileIThreshold(Model,K_str,Istim_str,dt)
+function createMainFileIThreshold(pathToSave,K_str,Istim_str,dt)
 
-f=fopen([Model '/' K_str '/' Istim_str '/data/main_file_IThreshold.dat'],'w');
+f=fopen([pathToSave '/' K_str '/' Istim_str '/data/main_file_IThreshold.dat'],'w');
 
 fprintf(f,'!------------------------------------------------------\n');
 fprintf(f,'#TITLE\n');
@@ -33,7 +33,7 @@ fprintf(f,'*SOLVER\n');
 fprintf(f,'1\n');
 fprintf(f,'!------------------------------------------------------\n');
 fprintf(f,'*TIME_INC\n');
-fprintf(f,[num2str(dt) ' ' num2str(dt) ' 1000 ' num2str(dt) ' ' num2str(dt) '\n']);
+fprintf(f,[num2str(dt) ' ' num2str(dt) ' 1000 ' num2str(dt) ' 0\n']);
 fprintf(f,'!------------------------------------------------------\n');
 fprintf(f,'*STIMULUS, FILE:"file_stimulus_IThreshold.dat"\n');
 fprintf(f,'!------------------------------------------------------\n');

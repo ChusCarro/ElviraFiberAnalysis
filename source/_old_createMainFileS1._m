@@ -1,11 +1,6 @@
-function createMainFilePreStim(Model,duration,step_restart,dt)
+function createMainFileS1(pathToSave,K_str,dt)
 
-f=fopen([Model '/base/data/main_file_preStim.dat'],'w');
-
-restart_points = step_restart:step_restart:duration;
-if(restart_points(end)~=duration)
-    restart_points = [restart_points duration];
-end
+f=fopen([pathToSave '/' K_str '/base/data/main_file_S1.dat'],'w');
 
 fprintf(f,'!------------------------------------------------------\n');
 fprintf(f,'#TITLE\n');
@@ -27,9 +22,8 @@ fprintf(f,'!------------------------------------------------------\n');
 fprintf(f,'#STEP\n');
 fprintf(f,'Single stimulation\n');
 fprintf(f,'!------------------------------------------------------\n');
-fprintf(f,'!*RESTART, 0\n');
-fprintf(f,'*RESTART, 1, FILE_W:"restart"\n');
-fprintf(f,[num2str(length(restart_points)) ' ' num2str(round(restart_points/dt)) '\n']);
+fprintf(f,'*RESTART, 2, FILE_R:"restartPreStim_prc_", FILE_W:"restartS1"\n');
+fprintf(f,['2 ' num2str([10000/dt 11000/dt]) '\n']);
 fprintf(f,'!------------------------------------------------------\n');
 fprintf(f,'*PARAM_NODE, FILE:"file_param_node.dat"\n');
 fprintf(f,'!------------------------------------------------------\n');
@@ -40,9 +34,9 @@ fprintf(f,'*SOLVER\n');
 fprintf(f,'1\n');
 fprintf(f,'!------------------------------------------------------\n');
 fprintf(f,'*TIME_INC\n');
-fprintf(f,[num2str(dt) ' ' num2str(dt) ' ' num2str(duration) ' ' num2str(dt) ' ' num2str(dt) '\n']);
+fprintf(f,[num2str(dt) ' ' num2str(dt) ' 11000 ' num2str(dt) ' ' num2str(dt) '\n']);
 fprintf(f,'!------------------------------------------------------\n');
-fprintf(f,'*STIMULUS, FILE:"file_stimulus_preStim.dat"\n');
+fprintf(f,'*STIMULUS, FILE:"file_stimulus_S1.dat"\n');
 fprintf(f,'!------------------------------------------------------\n');
 fprintf(f,'*NODEOUTPUT, FILE:"file_node_output.dat"\n');
 fprintf(f,'*G_OUTPUT\n');
