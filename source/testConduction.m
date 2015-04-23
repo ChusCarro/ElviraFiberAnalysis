@@ -41,7 +41,7 @@ for i=1:numStim
 %   end
 end
 
-APD90 = median(cell2mat(APD90_c));
+APD90 = mean(cell2mat(APD90_c));
 APD_time_v = cell2mat(APD_time);
-CV = median(dxOut*1000./diff(APD_time_v));
+CV = mean(dxOut*1000./diff(APD_time_v));
 conduction = true;
