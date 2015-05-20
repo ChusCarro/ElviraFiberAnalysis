@@ -18,28 +18,38 @@ for i=1:n_cells
 end
 
 for i=1:n_cells
+    APD90_v = APD90_c{i};
+    APD_time_v = APD_time{i};
+    maxV_v = maxV{i};
+    minV_v = minV{i};
+    index = [];
+    for j=1:length(APD90_v)
+        %differences = maxV_v(:,j) - minV_v(:,j);
+        %smallerThanMinDiffV = find(differences<minDiffV,1);
+        %if(isempty(smallerThanMinDiffV))
+        %    index = [index j];
+        %end
+        smallerThan0 = find(maxV_v(:,j)<0,1);
+        if(isempty(smallerThan0))
+            index = [index j];
+        end
+    end
+    APD90_c{i}=APD90_v(index);
+    APD_time{i} = APD_time_v(index);
+    maxV{i} = maxV_v(index);
+    minV{i} = minV_v(index);
+    differ{i} = maxV{i}-minV{i}; 
+
     if(numStim~=length(APD90_c{i}))
+        disp(['The position ' num2str(i) ' haven''t ' num2str(numStim) ' potential(s)']);
         return;
     end
 end
 
-maxV = cell2mat(maxV);
-minV = cell2mat(minV);
-
-for i=1:numStim
-   differences = maxV(:,i) - minV(:,i);
-   biggerThanMinDiffV = find(differences<minDiffV,1);
-   if(~isempty(biggerThanMinDiffV))
-       return
-   end
-   
-%   diff_matrix = (1./differences)*differences';
-%   
-%   biggerThanMinPercV = find(diff_matrix<minPercV,1);
-%   if(~isempty(biggerThanMinPercV))
-%       return;
-%   end
-end
+%if(sum(differ{n_cells}>0.9*differ{n_cells-1})<numStim)
+%  disp('Potentials are decreassing')
+%  return;
+%end
 
 APD90 = mean(cell2mat(APD90_c));
 APD_time_v = cell2mat(APD_time);

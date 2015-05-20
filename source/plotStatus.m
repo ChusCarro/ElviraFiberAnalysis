@@ -1,6 +1,16 @@
-function plotStatus(pathToSave,K)
+function figures=plotStatus(pathToSave,K,color,figures)
 
-close all;
+if(nargin<3)
+  color = 'b';
+end
+if(nargin<4 || length(figures)<5)
+  for i=1:5
+    figures(i)=figure;
+  end
+end
+
+
+%close all;
 
 K_plot=[];
 APD1_plot=[];
@@ -69,66 +79,61 @@ for i=1:length(K)
 end
 
 K_plot
-f=figure;
-%plot(K_plot,APD1_plot,'b',K_plot,APD2_plot,'b')%,'linewidth',1,'MarkerSize',8)
-plot(K_plot,APD1_plot,'-b.',K_plot,APD2_plot,'-b.')%,'linewidth',1,'MarkerSize',8)
+f=figure(figures(1));
+hold on
+plot([K_plot NaN K_plot],[APD1_plot NaN APD2_plot],['-' color '.'])%,'linewidth',1,'MarkerSize',8)
 title('Action Potential Duration')
 xlabel('[K^+]_o (mM)')
 ylabel('APD_{90} (ms)')
-xlim([min(K_plot) max(K_plot)])
-ylim([0 max([1 APD1_plot APD2_plot])*1.05])
-saveas(f,[pathToSave '/APD_90.fig'])
-saveas(f,[pathToSave '/APD_90.pdf'])
+%xlim([min(K_plot) max(K_plot)])
+%ylim([0 max([1 APD1_plot APD2_plot])*1.05])
+if(nargout==0)
+  saveas(f,[pathToSave '/APD_90.pdf'])
+end
 
-f=figure;
-plot(K_plot,CV1_plot,'-b.',K_plot,CV2_plot,'-b.')%,'linewidth',1,'MarkerSize',8)
-%plot(K_plot,CV1_plot,'b',K_plot,CV2_plot,'b')%,'linewidth',1,'MarkerSize',8)
+f=figure(figures(2));
+hold on
+plot([K_plot NaN K_plot],[CV1_plot NaN CV2_plot],['-' color '.'])%,'linewidth',1,'MarkerSize',8)
 title('Conduction Velocity')
 xlabel('[K^+]_o (mM)')
 ylabel('CV (cm/s)')
-xlim([min(K_plot) max(K_plot)])
-ylim([0 max([1 CV1_plot CV2_plot])*1.05])
-saveas(f,[pathToSave '/CV.fig'])
-saveas(f,[pathToSave '/CV.pdf'])
+%xlim([min(K_plot) max(K_plot)])
+%ylim([0 max([1 CV1_plot CV2_plot])*1.05])
+if(nargout==0)
+  saveas(f,[pathToSave '/CV.pdf'])
+end
 
-f=figure;
-plot(K_plot,ERP1_plot,'-b.',K_plot,ERP2_plot,'-b.')%,'linewidth',1,'MarkerSize',8)
-%plot(K_plot,ERP1_plot,'b',K_plot,ERP2_plot,'b')%,'linewidth',1,'MarkerSize',8)
+f=figure(figures(3));
+hold on
+plot([K_plot NaN K_plot],[ERP1_plot NaN ERP2_plot],['-' color '.'])%,'linewidth',1,'MarkerSize',8)
 title('Effective Refractory Period')
 xlabel('[K^+]_o (mM)')
 ylabel('ERP (ms)')
-xlim([min(K_plot) max(K_plot)])
-ylim([0 max([1 ERP1_plot ERP2_plot])*1.05])
-saveas(f,[pathToSave '/ERP.fig'])
-saveas(f,[pathToSave '/ERP.pdf'])
+%xlim([min(K_plot) max(K_plot)])
+%ylim([0 max([1 ERP1_plot ERP2_plot])*1.05])
+if(nargout==0)
+  saveas(f,[pathToSave '/ERP.pdf'])
+end
 
-f=figure;
-plot(K_plot,IThreshold_plot,'-b.')%,'linewidth',1,'MarkerSize',8)
-%plot(K_plot,IThreshold_plot,'b')%,'linewidth',1,'MarkerSize',8)
+f=figure(figures(4));
+hold on
+plot(K_plot,IThreshold_plot,['-' color '.'])%,'linewidth',1,'MarkerSize',8)
 title('I_{Threshold}')
 xlabel('[K^+]_o (mM)')
 ylabel('I_{Threshold} (pA/pF)')
-xlim([min(K_plot) max(K_plot)])
-ylim([0 max([1 IThreshold_plot])*1.05])
-saveas(f,[pathToSave '/IThreshold.fig'])
-saveas(f,[pathToSave '/IThreshold.pdf'])
+%xlim([min(K_plot) max(K_plot)])
+%ylim([0 max([1 IThreshold_plot])*1.05])
+if(nargout==0)
+  saveas(f,[pathToSave '/IThreshold.pdf'])
+end
 
-%f=figure;
-%plot(K_plot(1:end-1),diff(IThreshold_plot)./diff(K_plot),'-b.','linewidth',1,'MarkerSize',8)
-%title('I_{Threshold} slope')
-%xlabel('[K^+]_o (mM)')
-%ylabel('dI/dK')
-%xlim([K_plot(1) K_plot(end-1)])
-%ylim([min(diff(IThreshold_plot)./diff(K_plot)) max(diff(IThreshold_plot)./diff(K_plot))])
-%saveas(f,[pathToSave '/dIThreshold.fig'])
-%saveas(f,[pathToSave '/dIThreshold.pdf'])
-
-f=figure;
-stem(K_plot,Conduction_plot.*S1Conduction_plot)
+f=figure(figures(5));
+hold
+stem(K_plot,Conduction_plot.*S1Conduction_plot,color)
 title('Conduction')
 xlabel('[K^+]_o (mM)')
-xlim([K_plot(1) K_plot(end)])
-ylim([0 1])
-saveas(f,[pathToSave '/Conduction.fig'])
-saveas(f,[pathToSave '/Conduction.pdf'])
-
+%xlim([K_plot(1) K_plot(end)])
+%ylim([0 1])
+if(nargout==0)
+  saveas(f,[pathToSave '/Conduction.pdf'])
+end

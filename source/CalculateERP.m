@@ -1,10 +1,10 @@
 function nodeOut = CalculateERP(cores, pathToSave, mainElvira, project, cellType, K, K_index, K_control, dt, step_save, pre_dur,...
                        pre_step, fun_sodium, h_index, j_index, Imax, Istep, CI_step,sigma_L,Cm,...
-                       HZ, BZ, IZ, dx, dxOut, nOut, CL, numStimIThreshold,nS1)
+                       HZ, BZ, IZ, dx, dxOut, nOut,centerOut, CL, numStimIThreshold,nS1,CVControl,CVerror)
 
 L = HZ+BZ+IZ;
 nodes = 0:dx:L;
-nodeOut = [round((HZ+BZ+IZ/2-dxOut/2*(nOut-1))/dx):round(dxOut/dx):round((HZ+BZ+IZ/2+dxOut/2*(nOut-1))/dx)]+1
+nodeOut = [round((centerOut-dxOut/2*(nOut-1))/dx):round(dxOut/dx):round((centerOut+dxOut/2*(nOut-1))/dx)]+1
 
 [SUCCESS,MESSAGE] = mkdir(pathToSave);
 
@@ -30,6 +30,17 @@ K_str = cell(length(K));
 preStim_stat = zeros(size(K));
 new_pre_dur = zeros(size(K));
 S1_stat = zeros(size(K));
+
+if(isempty(dir([pathToSave '/Sigma'])))
+    [SUCCES, MESSAGE] = mkdir([pathToSave '/Sigma']);
+    copyfile([pathToSave '/base'],[pathToSave '/Sigma/base']);
+end
+
+
+sigma = calculateSigma([pathToSave '/Sigma'], Imax, sigma_L , Cm, CVControl,CVerror, numStimIThreshold, CL, dt, nodeOut,dxOut, project);
+
+createFileMaterial([pathToSave '/base'],sigma,1,Cm);
+
 
 if(isempty(dir([pathToSave '/IStim'])))
     [SUCCES, MESSAGE] = mkdir([pathToSave '/IStim']);

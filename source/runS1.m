@@ -32,7 +32,7 @@ if(isempty(dir([pathToSave '/base-S1'])))
     delete([pathToSave '/base/post/*']);
 end
 
-%if(~isfield(sim_stat,'APD2'))
+if(~isfield(sim_stat,'APD2'))
     cd([pathToSave '/base-S1/'])
     for i=1:length(nodeOut)
         a=load(sprintf('post/S1_prc0_%08d.var',nodeOut(i)));
@@ -51,7 +51,7 @@ end
       sim_stat.CV2  = CV(2);
       sim_stat.APD2 = APD(2);
     end
-%end
+end
 
 save([pathToSave '/status.mat'],'-struct','sim_stat');
 conduction = sim_stat.S1Conduction;

@@ -1,4 +1,4 @@
-function plotS1(pathToSave,K,nodeOut)
+function plotS1(pathToSave,CL,K,nodeOut)
 
 close all;
 
@@ -12,8 +12,9 @@ for i=1:length(K)
             f=figure;
             for j=1:length(nodeOut)
                 a=load(sprintf('%s/%s/base-S1/post/S1_prc0_%08d.var',pathToSave,K_str,nodeOut(j)));
-                t(:,j)=a(:,1);
-                V(:,j)=a(:,2);
+                dt = a(2,1)-a(1,1);
+                t(:,j)=a(end-round(CL*2/dt):end,1);
+                V(:,j)=a(end-round(CL*2/dt):end,2);
             end
 
             plot(t,V)

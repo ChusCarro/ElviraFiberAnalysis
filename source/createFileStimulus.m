@@ -13,5 +13,5 @@ fprintf(f,'  1 1\n');
 fprintf(f,'\n');
 fclose(f);
 
-disp('File file_material.dat created')
+disp('File file_stimulus.dat created')
  
