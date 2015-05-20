@@ -1,6 +1,6 @@
 addpath([pwd() '/../source'])
 
-pathToSave = '~/FiberResults/TP06';
+pathToSave = '~/FiberResults/TP06_H2_B0.5_I1.5';
 mainElvira = '~/Software/Elvira/Elvira20150121/bin/mainelv_infiniband_gcc';
 project = 'Hperkalemia in fibre - ten Tusscher & Panfilov 2006 Model';
 cellType = 3;
@@ -21,9 +21,9 @@ Istep = 1;
 CI_step = 1;
 sigma_L = 0.0013;
 Cm = 1;
-HZ = 1;
+HZ = 2;
 BZ = 0.5;
-IZ = 2.5;
+IZ = 1.5;
 centerOut = 3;
 dx = 0.01;
 nOut = 5;

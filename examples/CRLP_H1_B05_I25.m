@@ -1,6 +1,6 @@
 addpath([pwd() '/../source'])
 
-pathToSave = '~/FiberResults/CRLP';
+pathToSave = '~/FiberResults/CRLP_H1_B0.5_I2.5';
 mainElvira = '~/Software/Elvira/Elvira20150426/bin/mainelv_infiniband_gcc';
 project = 'Hperkalemia in fibre - Carro et al 2011 Model';
 cellType = 15;
@@ -36,14 +36,14 @@ nS1 = 10;
 CVControl = 65;
 CVError = 0.1;
 
-%nodesOut = CalculateERP(cores, pathToSave, mainElvira, project, cellType, K, K_index, K_control, dt,...
-%             step_save, pre_dur, pre_step, fun_sodium, h_index,...
-%             j_index, Imax, Istep, CI_step, sigma_L, Cm, HZ, BZ, IZ, dx, dxOut,...
-%             nOut, centerOut, CL, numStimIThreshold, nS1, CVControl, CVError);
+nodesOut = CalculateERP(cores, pathToSave, mainElvira, project, cellType, K, K_index, K_control, dt,...
+             step_save, pre_dur, pre_step, fun_sodium, h_index,...
+             j_index, Imax, Istep, CI_step, sigma_L, Cm, HZ, BZ, IZ, dx, dxOut,...
+             nOut, centerOut, CL, numStimIThreshold, nS1, CVControl, CVError);
 
 plotStatus(pathToSave,K)
 plotIThresholdLimits(pathToSave,nodesOut)
 plotCILimits(pathToSave,K,nodesOut)
 plotS1(pathToSave,CL,K,nodesOut)
 
-%exit
+exit
