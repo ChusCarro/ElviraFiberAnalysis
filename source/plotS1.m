@@ -1,7 +1,7 @@
 function plotS1(pathToSave,CL,K,nodeOut)
 
 close all;
-
+K
 for i=1:length(K)
     K_str = ['K_' num2str(K(i))]
 

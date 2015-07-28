@@ -37,13 +37,15 @@ while(abs(sim_stat.CV-CVControl)>CVError)
         dt_results = a(2,1)-a(1,1);
         V(:,i)=a(:,2);
     end
-    [cond,CV] = testConduction(V,dt_results,numStim,dxOut);
+    [cond,CV] = testConduction(V,dt_results,numStim,dxOut)
     
-    if(abs(sim_stat.CV-CVControl)>CVError)    
-      sim_stat.sigma = (CVControl/CV(end))^2*sim_stat.sigma;
+    newCV = mean(CV(end-1:end))
+    abs(newCV-CVControl)>CVError    
+    if(abs(newCV-CVControl)>CVError)    
+      sim_stat.sigma = (CVControl/newCV)^2*sim_stat.sigma;
     end
     sim_stat.index = sim_stat.index + 1;
-    sim_stat.CV = CV(end);
+    sim_stat.CV = newCV;
     save([pathToSave '/status.mat'],'-struct','sim_stat');
 
 end

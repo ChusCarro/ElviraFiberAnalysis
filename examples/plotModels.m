@@ -1,24 +1,62 @@
+close all;
+clear all;
+clc;
+
 addpath([pwd() '/../source'])
+pathToSave = '~/FiberResults';%/CriterioV0';
 
-pathToSave = '~/FiberResults/';
 
-K=[4:0.1:11];
+disp(['Plotting results from: ' pathToSave])
 
-models = {'TP06','CRLP','This work without [K^+]_i dynamics','This work with [K^+]_i dynamics'};
+K=[4:0.1:10];
 
-figures = plotStatus([pathToSave '/TP06_H2_B0.5_I1.5'],K)
-figures = plotStatus([pathToSave '/CRLP_H2_B0.5_I1.5'],K,'g',figures)
-figures = plotStatus([pathToSave '/CRLP_v2_H2_B0.5_I1.5'],K,'r',figures)
-figures = plotStatus([pathToSave '/CRLP_v3_H2_B0.5_I1.5'],K,'k',figures)
+models = {'TP06','GPB','CRLP','This work without [K^+]_i dynamics','This work with [K^+]_i dynamics'};
+directories = {'TP06_H2_B0.5_I2','GPB_H2_B0.5_I2','CRLP_H2_B0.5_I2','CRLP_v2_H2_B0.5_I2','CRLP_v3_H2_B0.5_I2'};
+colors = 'bygrk';
 
-for i=1:length(figures)
-  figure(figures(i))
-  l = legend(models,'Location','Best');
-  set(l,'Box','off')
+disp(' - Models:')
+for i=1:length(models)
+  disp(['   * ' models{i} ' (' directories{i} ')'])
 end
 
-saveas(figures(1),[pathToSave '/APD.pdf'])
-saveas(figures(2),[pathToSave '/CV.pdf'])
-saveas(figures(3),[pathToSave '/ERP.pdf'])
-saveas(figures(3),[pathToSave '/ERP.pdf'])
-saveas(figures(4),[pathToSave '/IThreshold.pdf'])
+disp(' ')
+
+figures=[];
+for i=1:length(directories)
+  disp(['Plotting model ' models{i} '...'])
+  figures = plotStatus([pathToSave '/' directories{i}],K,colors(i),figures,i,length(models));
+  plotStatus([pathToSave '/' directories{i}],K);
+end
+
+disp(' ')
+disp('Adding legends...')
+for i=1:length(figures)-1
+  figure(figures(i))
+  l = legend(models,'Location','BestOutside');
+  set(l,'Box','off')
+  xlim([min(K) max(K)])
+end
+
+figure(figures(5))
+for i=1:length(models)
+  s=subplot(length(models),1,i);
+  title(models{i})
+  xlim([min(K) max(K)])
+  ylim([0 1])
+  if(i<length(models))
+    xlabel('')
+    set(s,'XTickLabel',[])
+  end
+  set(s,'YTick',[0 1])
+  set(s,'YTickLabel',[' NO';'YES'])
+end
+
+disp(' ')
+disp('Saving pdf files...')
+savegraphics(figures(1),[pathToSave '/APD'])
+savegraphics(figures(2),[pathToSave '/CV'])
+savegraphics(figures(3),[pathToSave '/ERP'])
+savegraphics(figures(4),[pathToSave '/IThreshold'])
+savegraphics(figures(5),[pathToSave '/Conduction'])
+
+disp(['Files saved at ' pathToSave])

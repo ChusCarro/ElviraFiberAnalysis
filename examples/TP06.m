@@ -34,7 +34,7 @@ numStimIThreshold = 5;
 nS1 = 10;
 
 CVControl = 65;
-CVError = 0.1;
+CVError = 0.2;
 
 nodesOut = CalculateERP(cores, pathToSave, mainElvira, project, cellType, K, K_index, K_control, dt,...
              step_save, pre_dur, pre_step, fun_sodium, h_index,...

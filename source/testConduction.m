@@ -29,8 +29,14 @@ for i=1:n_cells
         %if(isempty(smallerThanMinDiffV))
         %    index = [index j];
         %end
-        smallerThan0 = find(maxV_v(:,j)<0,1);
-        if(isempty(smallerThan0))
+
+        %smallerThan0 = find(maxV_v(:,j)<0,1);
+        %if(isempty(smallerThan0))
+        %    index = [index j];
+        %end
+
+	lessThan150APD = find(APD90_v(:,j)<150,1);
+        if(isempty(lessThan150APD))
             index = [index j];
         end
     end
@@ -53,5 +59,5 @@ end
 
 APD90 = mean(cell2mat(APD90_c));
 APD_time_v = cell2mat(APD_time);
-CV = mean(dxOut*1000./diff(APD_time_v));
+CV = dxOut*(n_cells-1)*1000./(APD_time_v(end,:)-APD_time_v(1,:))
 conduction = true;

@@ -1,4 +1,4 @@
-function figures=plotStatus(pathToSave,K,color,figures)
+function figures=plotStatus(pathToSave,K,color,figures,ind,total)
 
 if(nargin<3)
   color = 'b';
@@ -7,6 +7,11 @@ if(nargin<4 || length(figures)<5)
   for i=1:5
     figures(i)=figure;
   end
+end
+
+if(nargin<5)
+  ind=1;
+  total = 1;
 end
 
 
@@ -78,10 +83,10 @@ for i=1:length(K)
     end
 end
 
-K_plot
 f=figure(figures(1));
 hold on
 plot([K_plot NaN K_plot],[APD1_plot NaN APD2_plot],['-' color '.'])%,'linewidth',1,'MarkerSize',8)
+hold off
 title('Action Potential Duration')
 xlabel('[K^+]_o (mM)')
 ylabel('APD_{90} (ms)')
@@ -94,6 +99,7 @@ end
 f=figure(figures(2));
 hold on
 plot([K_plot NaN K_plot],[CV1_plot NaN CV2_plot],['-' color '.'])%,'linewidth',1,'MarkerSize',8)
+hold off
 title('Conduction Velocity')
 xlabel('[K^+]_o (mM)')
 ylabel('CV (cm/s)')
@@ -106,6 +112,7 @@ end
 f=figure(figures(3));
 hold on
 plot([K_plot NaN K_plot],[ERP1_plot NaN ERP2_plot],['-' color '.'])%,'linewidth',1,'MarkerSize',8)
+hold off
 title('Effective Refractory Period')
 xlabel('[K^+]_o (mM)')
 ylabel('ERP (ms)')
@@ -118,6 +125,7 @@ end
 f=figure(figures(4));
 hold on
 plot(K_plot,IThreshold_plot,['-' color '.'])%,'linewidth',1,'MarkerSize',8)
+hold off
 title('I_{Threshold}')
 xlabel('[K^+]_o (mM)')
 ylabel('I_{Threshold} (pA/pF)')
@@ -128,7 +136,7 @@ if(nargout==0)
 end
 
 f=figure(figures(5));
-hold
+subplot(total,1,ind)
 stem(K_plot,Conduction_plot.*S1Conduction_plot,color)
 title('Conduction')
 xlabel('[K^+]_o (mM)')

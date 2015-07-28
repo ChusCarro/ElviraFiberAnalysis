@@ -37,7 +37,7 @@ if(isempty(dir([pathToSave '/Sigma'])))
 end
 
 
-sigma = calculateSigma([pathToSave '/Sigma'], Imax, sigma_L , Cm, CVControl,CVerror, numStimIThreshold, CL, dt, nodeOut,dxOut, project);
+sigma = calculateSigma([pathToSave '/Sigma'], Imax, sigma_L , Cm, CVControl,CVerror, nS1, CL, dt, nodeOut,dxOut, project);
 
 createFileMaterial([pathToSave '/base'],sigma,1,Cm);
 

@@ -24,10 +24,10 @@ Cm = 1;
 HZ = 2;
 BZ = 0.5;
 IZ = 1.5;
-centerOut = 3;
+centerOut = 3.3;
 dx = 0.01;
 nOut = 5;
-dxOut = 0.25;
+dxOut = 0.1;
 
 CL = 1000;
 numStimIThreshold = 5;
