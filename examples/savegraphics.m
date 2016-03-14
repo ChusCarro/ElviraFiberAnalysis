@@ -15,5 +15,5 @@ paper_size = figure_print(3:4)+figure_margin;
 set(f,'PaperPosition',figure_print)
 set(f,'PaperSize',paper_size)
 
-saveas(f,[name '.jpeg'])
+%saveas(f,[name '.jpeg'])
 saveas(f,[name '.pdf'])

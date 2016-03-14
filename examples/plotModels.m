@@ -10,9 +10,9 @@ disp(['Plotting results from: ' pathToSave])
 
 K=[4:0.1:10];
 
-models = {'TP06','GPB','CRLP','This work without [K^+]_i dynamics','This work with [K^+]_i dynamics'};
-directories = {'TP06_H2_B0.5_I2','GPB_H2_B0.5_I2','CRLP_H2_B0.5_I2','CRLP_v2_H2_B0.5_I2','CRLP_v3_H2_B0.5_I2'};
-colors = 'bygrk';
+models = {'TP06','GPB','CRLP','ORd','ORdNa','This work without [K^+]_i dynamics','This work with [K^+]_i dynamics'};
+directories = {'TP06_H2_B0.5_I2','GPB_H2_B0.5_I2','CRLP_H2_B0.5_I2','ORd_H2_B0.5_I2','ORdNa_H2_B0.5_I2','CRLP_v2_H2_B0.5_I2','CRLP_v3_H2_B0.5_I2'};
+colors = 'bgrcymk';
 
 disp(' - Models:')
 for i=1:length(models)
